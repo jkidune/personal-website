@@ -30,12 +30,30 @@ export default function ContactPage() {
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
 
-  const submit = async () => {
-    if (!form.name || !form.email || !form.message) return
-    setStatus('sending')
-    const { error } = await supabase.from('contacts').insert([form])
-    setStatus(error ? 'error' : 'sent')
+ const submit = async () => {
+  if (!form.name || !form.email || !form.message) return
+  setStatus('sending')
+
+  try {
+    // Save to Supabase
+    const { error: dbError } = await supabase.from('contacts').insert([form])
+    if (dbError) throw dbError
+
+    // Send email notification
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+
+    if (!res.ok) throw new Error('Email failed')
+
+    setStatus('sent')
+  } catch (err) {
+    console.error(err)
+    setStatus('error')
   }
+}
 
   return (
     <main style={{ background: 'var(--bg)', minHeight: '100vh' }}>
