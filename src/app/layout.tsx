@@ -23,6 +23,11 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   title: 'Joseph Masonda — Communications, Digital & Conservation',
   description: '7 years building brands, digital strategies, and conservation narratives.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+}
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
