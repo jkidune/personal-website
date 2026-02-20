@@ -1,10 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 
 interface Project {
   id: string
   title: string
+  slug: string
   category: string
   cover_url: string
   url: string
@@ -14,8 +16,8 @@ interface Project {
 export default function Works() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
-  // Fetch data first
   useEffect(() => {
     supabase
       .from('projects')
@@ -28,10 +30,8 @@ export default function Works() {
       })
   }, [])
 
-  // Run observer only after data is loaded
   useEffect(() => {
     if (loading) return
-
     const observer = new IntersectionObserver(
       (entries) => entries.forEach(e => {
         if (e.isIntersecting) {
@@ -40,15 +40,10 @@ export default function Works() {
         }
       }), { threshold: 0.1 }
     )
-
     const timer = setTimeout(() => {
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
     }, 100)
-
-    return () => {
-      clearTimeout(timer)
-      observer.disconnect()
-    }
+    return () => { clearTimeout(timer); observer.disconnect() }
   }, [loading])
 
   return (
@@ -94,12 +89,15 @@ export default function Works() {
             display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem',
           }}>
             {projects.map((w, i) => (
-              <div key={w.id} style={{
-                position: 'relative', overflow: 'hidden',
-                borderRadius: 16, border: '1px solid var(--border)',
-                gridRow: i === 0 ? 'span 2' : undefined,
-                cursor: 'pointer',
-              }}
+              <div
+                key={w.id}
+                onClick={() => router.push(`/works/${w.slug}`)}
+                style={{
+                  position: 'relative', overflow: 'hidden',
+                  borderRadius: 16, border: '1px solid var(--border)',
+                  gridRow: i === 0 ? 'span 2' : undefined,
+                  cursor: 'pointer',
+                }}
                 onMouseEnter={e => {
                   const img = e.currentTarget.querySelector('img') as HTMLImageElement
                   if (img) { img.style.transform = 'scale(1.04)'; img.style.filter = 'brightness(0.5)' }
