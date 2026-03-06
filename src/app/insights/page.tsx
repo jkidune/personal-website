@@ -40,196 +40,106 @@ export default function InsightsPage() {
     setFiltered(tag === 'All' ? posts : posts.filter(p => p.tag === tag))
   }
 
-  const featured = filtered[0]
-  const rest = filtered.slice(1)
-
   return (
-    <main style={{ background: 'var(--bg)', minHeight: '100vh' }}>
-
-      {/* Navbar */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(10,10,8,0.92)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid var(--border)', padding: '1.25rem 0',
-      }}>
-        <div className="container" style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <a href="/" style={{
-            fontFamily: 'var(--font-inter)', fontSize: '1.1rem',
-            fontWeight: 700, color: 'var(--white)', textDecoration: 'none',
-          }}>
-            Joseph<span style={{ color: 'var(--accent)' }}>.</span>
-          </a>
-          <a href="/"
-            style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-          >
-            ← Back Home
-          </a>
-        </div>
-      </div>
-
-      <div className="container" style={{ paddingTop: '9rem', paddingBottom: '8rem' }}>
+    <main className="min-h-screen bg-white pt-32 pb-24">
+      <div className="container mx-auto px-4">
 
         {/* Header */}
-        <div style={{ marginBottom: '4rem' }}>
-          <div style={{
-            fontFamily: 'var(--font-dm-mono)', fontSize: '0.7rem',
-            color: 'var(--accent)', letterSpacing: '0.15em',
-            textTransform: 'uppercase', marginBottom: '1rem',
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-          }}>
-            <span style={{ width: 24, height: 1, background: 'var(--accent)', display: 'inline-block' }} />
-            All Articles
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <h1 style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-              fontWeight: 800, color: 'var(--white)',
-              lineHeight: 1.05, letterSpacing: '-0.03em',
-            }}>
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div>
+            <div className="flex items-center gap-3 font-[family-name:var(--font-dm-mono)] text-xs tracking-[0.15em] text-[#FF3333] uppercase mb-4">
+              <span className="w-6 h-[1px] bg-[#FF3333]"></span>
               Insights
-            </h1>
-            {/* Tag filters */}
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-              {ALL_TAGS.map(tag => (
-                <button
-                  key={tag}
-                  onClick={() => filterByTag(tag)}
-                  style={{
-                    padding: '0.5rem 1.1rem', borderRadius: 100,
-                    border: `1px solid ${activeTag === tag ? 'var(--accent)' : 'var(--border)'}`,
-                    background: activeTag === tag ? 'rgba(200,181,96,0.12)' : 'transparent',
-                    color: activeTag === tag ? 'var(--accent)' : 'var(--muted)',
-                    fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s',
-                    fontFamily: 'var(--font-dm-mono)', letterSpacing: '0.05em',
-                  }}
-                >{tag}</button>
-              ))}
             </div>
+            <h1 className="font-[family-name:var(--font-outfit)] text-5xl md:text-6xl font-medium text-black leading-tight">
+              Latest <span className="italic text-[#FF3333]">Articles</span>
+            </h1>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {ALL_TAGS.map(tag => (
+              <button
+                key={tag}
+                onClick={() => filterByTag(tag)}
+                className={`
+                  px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border
+                  ${activeTag === tag 
+                    ? 'bg-black text-white border-black' 
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-[#FF3333] hover:text-[#FF3333]'
+                  }
+                `}
+              >
+                {tag}
+              </button>
+            ))}
           </div>
         </div>
 
-        {loading ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-            {[...Array(6)].map((_, i) => (
-              <div key={i} style={{
-                background: 'var(--surface)', borderRadius: 16,
-                height: 320, opacity: 0.4,
-              }} />
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '5rem 0' }}>
-            <p style={{ color: 'var(--muted)' }}>No articles found for this category.</p>
-          </div>
-        ) : (
-          <>
-            {/* Featured article — full width */}
-            {featured && (
-              <div
-                onClick={() => router.push(`/insights/${featured.slug}`)}
-                style={{
-                  display: 'grid', gridTemplateColumns: '1fr 1fr',
-                  border: '1px solid var(--border)', borderRadius: 20,
-                  overflow: 'hidden', cursor: 'pointer',
-                  marginBottom: '1.5rem', transition: 'border-color 0.3s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+          {loading ? (
+             [...Array(3)].map((_, i) => (
+              <div key={i} className="flex flex-col gap-4">
+                <div className="bg-gray-100 aspect-[4/3] rounded-[24px] animate-pulse" />
+                <div className="h-4 bg-gray-100 w-24 rounded animate-pulse" />
+                <div className="h-8 bg-gray-100 w-3/4 rounded animate-pulse" />
+              </div>
+            ))
+          ) : filtered.length === 0 ? (
+            <div className="col-span-full text-center py-24 text-gray-400 font-[family-name:var(--font-dm-mono)]">
+              No articles found in this category.
+            </div>
+          ) : (
+            filtered.map((post) => (
+              <div 
+                key={post.id}
+                onClick={() => router.push(`/insights/${post.slug}`)}
+                className="group cursor-pointer flex flex-col gap-6"
               >
-                <img
-                  src={featured.cover_url} alt={featured.title}
-                  style={{ width: '100%', height: 380, objectFit: 'cover', display: 'block', filter: 'brightness(0.85)' }}
-                />
-                <div style={{
-                  padding: '3rem', background: 'var(--surface)',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                }}>
-                  <div style={{
-                    display: 'inline-block',
-                    fontFamily: 'var(--font-dm-mono)', fontSize: '0.65rem',
-                    color: 'var(--accent)', letterSpacing: '0.12em',
-                    textTransform: 'uppercase', marginBottom: '1rem',
-                    background: 'rgba(200,181,96,0.1)',
-                    padding: '0.3rem 0.75rem', borderRadius: 100,
-                    border: '1px solid rgba(200,181,96,0.2)',
-                    alignSelf: 'flex-start',
-                  }}>
-                    ✦ Featured · {featured.tag}
-                  </div>
-                  <h2 style={{
-                    fontFamily: 'var(--font-inter)', fontSize: '1.6rem',
-                    fontWeight: 800, color: 'var(--white)',
-                    lineHeight: 1.2, letterSpacing: '-0.02em',
-                    marginBottom: '1rem',
-                  }}>{featured.title}</h2>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-                    {featured.excerpt}
-                  </p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>
-                      {new Date(featured.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {/* Image Container */}
+                <div className="relative overflow-hidden rounded-[24px] bg-gray-50 border border-gray-100 aspect-[4/3]">
+                   <img 
+                     src={post.cover_url} 
+                     alt={post.title}
+                     className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 group-hover:blur-[4px]"
+                   />
+                   
+                   {/* Hover Icon Overlay */}
+                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
+                          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                      </div>
+                   </div>
+                </div>
+
+                {/* Content Below */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="font-[family-name:var(--font-dm-mono)] text-xs tracking-[0.15em] text-[#FF3333] uppercase">
+                      {post.tag}
                     </span>
-                    <span style={{ color: 'var(--accent)', fontSize: '0.85rem', fontWeight: 500 }}>Read more →</span>
+                    <span className="h-[1px] w-4 bg-gray-200"></span>
+                    <span className="text-xs text-gray-400 font-medium">
+                      {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
                   </div>
+                  
+                  <h3 className="font-[family-name:var(--font-outfit)] text-2xl font-medium text-black group-hover:text-[#FF3333] transition-colors duration-300 leading-snug">
+                    {post.title}
+                  </h3>
+                  
+                  <p className="text-gray-500 leading-relaxed line-clamp-3 text-sm">
+                    {post.excerpt}
+                  </p>
                 </div>
               </div>
-            )}
+            ))
+          )}
+        </div>
 
-            {/* Rest — 3 col grid */}
-            {rest.length > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-                {rest.map(p => (
-                  <div
-                    key={p.id}
-                    onClick={() => router.push(`/insights/${p.slug}`)}
-                    style={{
-                      border: '1px solid var(--border)', borderRadius: 16,
-                      overflow: 'hidden', cursor: 'pointer',
-                      transition: 'border-color 0.3s, transform 0.2s',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = 'var(--accent)'
-                      e.currentTarget.style.transform = 'translateY(-4px)'
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = 'var(--border)'
-                      e.currentTarget.style.transform = 'translateY(0)'
-                    }}
-                  >
-                    <img src={p.cover_url} alt={p.title}
-                      style={{ width: '100%', height: 200, objectFit: 'cover', display: 'block' }} />
-                    <div style={{ padding: '1.5rem' }}>
-                      <div style={{
-                        fontFamily: 'var(--font-dm-mono)', fontSize: '0.65rem',
-                        color: 'var(--accent)', letterSpacing: '0.12em',
-                        textTransform: 'uppercase', marginBottom: '0.75rem',
-                      }}>{p.tag}</div>
-                      <h3 style={{
-                        fontFamily: 'var(--font-inter)', fontSize: '1rem',
-                        fontWeight: 700, color: 'var(--white)',
-                        lineHeight: 1.4, marginBottom: '0.75rem',
-                      }}>{p.title}</h3>
-                      <p style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.6, marginBottom: '1rem' }}>
-                        {p.excerpt}
-                      </p>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
-                          {new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                        </span>
-                        <span style={{ color: 'var(--accent)', fontSize: '0.8rem' }}>Read →</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
       </div>
     </main>
   )

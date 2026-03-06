@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter, DM_Sans, DM_Mono } from 'next/font/google'
+import { Inter, DM_Sans, DM_Mono, Outfit } from 'next/font/google'
 import './globals.css'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+})
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,11 +37,17 @@ export const metadata: Metadata = {
 }
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${dmSans.variable} ${dmMono.variable}`}>
+      <body className={`${inter.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}>
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   )

@@ -1,88 +1,82 @@
+import React from 'react'
+
 export default function Hero() {
   return (
-    <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '8rem 0 4rem' }}>
-      {/* Glow effects */}
-      <div style={{
-        position: 'absolute', top: '-20%', right: '-10%',
-        width: 600, height: 600, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(74,124,89,0.15) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-      <div style={{
-        position: 'absolute', bottom: 0, left: '30%',
-        width: 400, height: 400, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(200,181,96,0.08) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+    <section className="relative min-h-screen flex flex-col items-center justify-center py-24 overflow-hidden bg-white">
+      {/* Background Grid Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-center opacity-30">
+        <div className="w-full h-full max-w-7xl grid grid-cols-6 gap-4">
+           <div className="border-r border-gray-200 h-full hidden md:block"></div>
+           <div className="border-r border-gray-200 h-full hidden md:block"></div>
+           <div className="border-r border-gray-200 h-full"></div>
+           <div className="border-r border-gray-200 h-full"></div>
+           <div className="border-r border-gray-200 h-full hidden md:block"></div>
+           <div className="border-r border-gray-200 h-full hidden md:block"></div>
+        </div>
+      </div>
 
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', height: '100%' }}>
-        {/* Left */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            fontFamily: 'var(--font-dm-mono)', fontSize: '0.75rem',
-            color: 'var(--accent)', letterSpacing: '0.12em',
-            textTransform: 'uppercase', marginBottom: '2rem',
-            opacity: 0, animation: 'fadeUp 0.8s 0.2s forwards',
-          }}>
-            <span style={{ width: 24, height: 1, background: 'var(--accent)', display: 'inline-block' }} />
-            Communications & Digital
-          </div>
-
-          <h1 style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: 'clamp(3rem, 5vw, 5.5rem)',
-            fontWeight: 900, lineHeight: 1.05,
-            color: 'var(--white)', marginBottom: '2rem',
-            opacity: 0, animation: 'fadeUp 0.8s 0.4s forwards',
-            letterSpacing: '-0.03em',
-          }}>
-            Telling stories<br />
-            that <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>move</em><br />
-            the world forward
-          </h1>
-
-          <p style={{
-            fontSize: '1.05rem', color: 'var(--muted)',
-            lineHeight: 1.7, maxWidth: 480, marginBottom: '3rem',
-            opacity: 0, animation: 'fadeUp 0.8s 0.6s forwards',
-            fontFamily: 'var(--font-dm-sans)',
-          }}>
-            7 years building brands, digital strategies, and conservation narratives.
-            I work at the intersection of technology, communication, and impact.
-          </p>
-
-          <div style={{
-            display: 'flex', gap: '1rem', alignItems: 'center',
-            opacity: 0, animation: 'fadeUp 0.8s 0.8s forwards',
-          }}>
-            <a href="#works" className="btn-primary">View My Work</a>
-            <a href="mailto:kidunejoseph91@gmail.com" className="btn-secondary">Let's Talk</a>
-          </div>
+      <div className="container mx-auto px-4 flex flex-col items-center text-center z-10 relative">
+        
+        {/* Badge */}
+        <div className="mb-10 inline-flex items-center gap-2 bg-brand-red text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-red-500/20 transition-transform hover:scale-105 cursor-default">
+          <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+          Now booking for Q4, 2025
         </div>
 
-        {/* Right */}
-        <div style={{
-          position: 'relative', zIndex: 1,
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          opacity: 0, animation: 'fadeIn 1.2s 0.5s forwards',
-        }}>
-          <div style={{ position: 'relative', width: 420, height: 520 }}>
-            <img
-              src="https://i.postimg.cc/G2Xt8j9H/77.png"
-              alt="Joseph Masonda"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 16, filter: 'grayscale(20%)' }}
-            />
-            <div style={{
-              position: 'absolute', bottom: '-1.5rem', left: '-2rem',
-              background: 'var(--surface)', border: '1px solid var(--border)',
-              padding: '1rem 1.5rem', borderRadius: 12,
-            }}>
-              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '2rem', fontWeight: 800, color: 'var(--accent)', display: 'block' }}>7+</span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.06em' }}>Years of Experience</span>
+        {/* Heading */}
+        <h1 className="text-5xl md:text-6xl lg:text-[5.5rem] font-bold tracking-tight text-brand-black mb-10 leading-[1.1] max-w-5xl mx-auto font-outfit">
+          <span className="block">Collaborative</span>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 my-2">
+            <span>Designs</span>
+            
+            {/* Avatars Stack */}
+            <div className="flex -space-x-4 items-center mx-2">
+               <div className="w-14 h-14 rounded-full border-[3px] border-white overflow-hidden bg-gray-100 shadow-avatar relative z-30 transition-transform hover:scale-110 hover:z-40">
+                 <img src="https://i.pravatar.cc/150?u=23" alt="Collaborator" className="w-full h-full object-cover" />
+               </div>
+               <div className="w-14 h-14 rounded-full border-[3px] border-white overflow-hidden bg-gray-100 shadow-avatar relative z-20 transition-transform hover:scale-110 hover:z-40">
+                 <img src="https://i.pravatar.cc/150?u=15" alt="Collaborator" className="w-full h-full object-cover" />
+               </div>
+               <div className="w-14 h-14 rounded-full border-[3px] border-white overflow-hidden bg-gray-100 shadow-avatar relative z-10 transition-transform hover:scale-110 hover:z-40">
+                 <img src="https://i.pravatar.cc/150?u=42" alt="Collaborator" className="w-full h-full object-cover" />
+               </div>
             </div>
+
+            {/* Lightning Icon */}
+            <div className="w-14 h-14 rounded-full bg-[image:var(--background-image-gradient-lightning)] flex items-center justify-center text-white shadow-lightning transform -rotate-12 transition-transform hover:rotate-0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                <path fillRule="evenodd" d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <span>for</span>
           </div>
+          <span className="block">High Performing</span>
+          <span className="block">Teams!</span>
+        </h1>
+
+        {/* Subheading */}
+        <div className="max-w-3xl mx-auto text-brand-text-gray text-lg md:text-xl leading-relaxed mb-12 space-y-2 font-outfit">
+          <p>
+            My name is Joseph, I specialize in creating beautiful & modern websites for startups, founders & business owners.
+          </p>
+          <p>
+            I make websites crafted with care in <span className="text-brand-red font-semibold underline decoration-brand-red/30 decoration-2 underline-offset-4 hover:decoration-brand-red transition-all cursor-pointer">Framer</span>, Wordpress, Webflow or by develoment to help you make an online presence fast & easy.
+          </p>
         </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row gap-5 items-center justify-center w-full">
+          <a href="#start-project" className="group min-w-[200px] px-8 py-4 rounded-full text-white font-medium text-lg shadow-button-primary bg-[image:var(--background-image-gradient-button)] hover:opacity-95 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+            Start a project
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#book-call" className="min-w-[200px] px-8 py-4 rounded-full bg-white text-brand-black border border-brand-mercury font-medium text-lg shadow-button-secondary hover:shadow-md transition-all hover:bg-gray-50 transform hover:-translate-y-1 flex items-center justify-center">
+            Book a call
+          </a>
+        </div>
+
       </div>
     </section>
   )
