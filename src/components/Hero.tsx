@@ -1,6 +1,17 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { PopupModal } from 'react-calendly'
 
 export default function Hero() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    // Set root element for Calendly modal
+    setRootElement(document.getElementById('root'))
+  }, [])
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center py-24 overflow-hidden bg-white">
       {/* Background Grid Lines */}
@@ -72,12 +83,25 @@ export default function Hero() {
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <a href="#book-call" className="min-w-[200px] px-8 py-4 rounded-full bg-white text-brand-black border border-brand-mercury font-medium text-lg shadow-button-secondary hover:shadow-md transition-all hover:bg-gray-50 transform hover:-translate-y-1 flex items-center justify-center">
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="min-w-[200px] px-8 py-4 rounded-full bg-white text-brand-black border border-brand-mercury font-medium text-lg shadow-button-secondary hover:shadow-md transition-all hover:bg-gray-50 transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+          >
             Book a call
-          </a>
+          </button>
         </div>
 
       </div>
+
+      {/* Calendly Modal */}
+      {rootElement && (
+        <PopupModal
+          url="https://calendly.com/kidunejoseph91/30min"
+          onModalClose={() => setIsOpen(false)}
+          open={isOpen}
+          rootElement={rootElement}
+        />
+      )}
     </section>
   )
 }

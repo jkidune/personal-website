@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { PopupModal } from 'react-calendly'
 
 const links = [
   { label: 'Works', href: '/works' },
@@ -12,10 +13,16 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
+    
+    // Set root element for Calendly modal
+    setRootElement(document.getElementById('root'))
+    
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -52,12 +59,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          <Link 
-            href="/contact"
-            className="hidden sm:flex bg-white text-black px-4 py-1.5 rounded-full font-[family-name:var(--font-outfit)] font-medium text-[13px] hover:bg-gray-100 transition-colors shadow-[0_4px_10px_rgba(0,0,0,0.05)]"
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="hidden sm:flex bg-white text-black px-4 py-1.5 rounded-full font-[family-name:var(--font-outfit)] font-medium text-[13px] hover:bg-gray-100 transition-colors shadow-[0_4px_10px_rgba(0,0,0,0.05)] cursor-pointer"
           >
             Let's Talk
-          </Link>
+          </button>
 
           {/* Mobile Menu Button (Hamburger) - Placeholder for now */}
           <button className="md:hidden text-white p-1">
@@ -69,6 +76,16 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+
+      {/* Calendly Modal */}
+      {rootElement && (
+        <PopupModal
+          url="https://calendly.com/kidunejoseph91/30min"
+          onModalClose={() => setIsOpen(false)}
+          open={isOpen}
+          rootElement={rootElement}
+        />
+      )}
     </div>
   )
 }

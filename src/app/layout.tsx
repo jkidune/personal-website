@@ -44,7 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}>
+      <body id="root" className={`${inter.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}>
         <Navbar />
         {children}
         <Footer />
