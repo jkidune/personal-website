@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 
 const services = [
   'Web Application',
@@ -35,11 +35,6 @@ export default function ContactPage() {
     setStatus('sending')
 
     try {
-      // Save to Supabase
-      const { error: dbError } = await supabase.from('contacts').insert([form])
-      if (dbError) throw dbError
-
-      // Send email notification
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -118,12 +113,12 @@ export default function ContactPage() {
                 <p className="text-gray-500 mb-8 max-w-sm mx-auto">
                   Thanks for reaching out. I'll review your message and get back to you within 24 hours.
                 </p>
-                <a 
-                  href="/" 
+                <Link
+                  href="/"
                   className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-black text-white hover:bg-[#FF3333] transition-colors duration-300 font-medium"
                 >
                   Back to Home
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="flex flex-col gap-8">
