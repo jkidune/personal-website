@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "id": "ai-in-business-a-beginners-guide-to-boost-your-income-and-growth",
+  "slug": "ai-in-business-a-beginners-guide-to-boost-your-income-and-growth",
+  "title": "AI in Business: A Beginner’s Guide to Boost Your Income and Growth",
+  "summary": "A short introduction to an AI-for-business guide designed to help beginners understand tools, applications, implementation and risks.",
+  "author": {
+    "name": "Joseph Masonda",
+    "profile": "https://medium.com/@kidunejoseph91",
+    "role": "Communications Officer | Digital Marketer | Website Designer | Content Creator | AI Enthusiast | Framer Developer | Writer"
+  },
+  "publishedAt": "2023-02-21",
+  "readTimeMinutes": 2,
+  "category": "AI & Business",
+  "tags": [
+    "Basic Income",
+    "Digital Life",
+    "Design",
+    "AI",
+    "Business"
+  ],
+  "featured": false,
+  "status": "published",
+  "coverImage": {
+    "src": null,
+    "alt": "",
+    "credit": null,
+    "note": "Add a locally hosted cover image before publishing."
+  },
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Are you a business owner or freelancer looking to increase revenue and growth? Artificial intelligence can be the game-changer you have been looking for. But for people new to AI, the subject can feel overwhelming and confusing."
+    },
+    {
+      "type": "paragraph",
+      "text": "AI in Business: A Beginner’s Guide to Boost Your Income and Growth offers a practical, easy-to-understand introduction to AI for beginners. It focuses on the business side of AI and how it can support revenue growth and passive income."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What the guide covers"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "What AI is and how it can benefit a business.",
+        "Business types and applications that are suitable for AI.",
+        "How to select the right AI tools.",
+        "AI implementation strategies and good practice.",
+        "Real-world case studies of AI implementation in different industries.",
+        "Challenges and risks associated with AI implementation."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The guide also includes predictions and trends for the future of AI in business so readers can stay informed and plan ahead."
+    },
+    {
+      "type": "paragraph",
+      "text": "It is intended for people who want to improve income and growth through AI, whether they are complete beginners or have some experience. It is written in an accessible style with practical advice and real-world examples."
+    },
+    {
+      "type": "paragraph",
+      "text": "For anyone ready to explore how AI can support business growth, the guide is positioned as a starting point for learning and implementation."
+    }
+  ],
+  "externalLinks": [
+    {
+      "label": "AI in Business guide",
+      "url": "https://jkidune.gumroad.com/l/AImastery"
+    }
+  ],
+  "source": {
+    "platform": "Medium",
+    "originalUrl": "https://medium.com/@kidunejoseph91/ai-in-business-a-beginners-guide-to-boost-your-income-and-growth-6bc90b3c6220",
+    "importedFrom": "Medium profile"
+  },
+  "seo": {
+    "title": "AI in Business: A Beginner’s Guide to Boost Your Income and Growth | Joseph Masonda",
+    "description": "A short introduction to an AI-for-business guide designed to help beginners understand tools, applications, implementation and risks.",
+    "keywords": [
+      "Basic Income",
+      "Digital Life",
+      "Design",
+      "AI",
+      "Business"
+    ]
+  },
+  "wordCount": 209,
+  "lastPreparedAt": "2026-06-24"
+}

@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "1.0",
+  "collection": "Joseph Masonda — Medium Articles",
+  "author": {
+    "name": "Joseph Masonda",
+    "profile": "https://medium.com/@kidunejoseph91",
+    "role": "Communications Officer | Digital Marketer | Website Designer | Content Creator | AI Enthusiast | Framer Developer | Writer"
+  },
+  "articleCount": 10,
+  "generatedAt": "2026-06-24",
+  "articles": [
+    {
+      "id": "automating-workflows-from-community-to-ministries-with-ai-as-drivers",
+      "slug": "automating-workflows-from-community-to-ministries-with-ai-as-drivers",
+      "title": "Automating Workflows from Community to Ministries with AI as drivers",
+      "summary": "An argument for using AI-enabled workflow automation to link policy, institutions and teaching in adult learning—while protecting inclusion, privacy and educator judgement.",
+      "publishedAt": "2026-02-05",
+      "readTimeMinutes": 5,
+      "category": "AI & Adult Learning",
+      "tags": [
+        "AI",
+        "Adult Education",
+        "Literacy",
+        "Digital Transformation",
+        "Workflow Automation"
+      ],
+      "featured": true,
+      "file": "articles/automating-workflows-from-community-to-ministries-with-ai-as-drivers.json"
+    },
+    {
+      "id": "50-years-of-the-institute-of-adult-education-a-nations-promise-renewed",
+      "slug": "50-years-of-the-institute-of-adult-education-a-nations-promise-renewed",
+      "title": "50 Years of the Institute of Adult Education: A Nation’s Promise, Renewed",
+      "summary": "A reflection on the Institute of Adult Education’s Golden Jubilee and the national commitments shaping the future of lifelong learning in Tanzania.",
+      "publishedAt": "2025-09-29",
+      "readTimeMinutes": 4,
+      "category": "Adult Education",
+      "tags": [
+        "Adult Education",
+        "Lifelong Learning",
+        "Tanzania",
+        "Institute of Adult Education",
+        "Policy"
+      ],
+      "featured": true,
+      "file": "articles/50-years-of-the-institute-of-adult-education-a-nations-promise-renewed.json"
+    },
+    {
+      "id": "how-chatgpt-4os-image-generator-is-a-game-changer-for-tanzanias-creative-and-marketing-industries",
+      "slug": "how-chatgpt-4os-image-generator-is-a-game-changer-for-tanzanias-creative-and-marketing-industries",
+      "title": "How ChatGPT-4o’s Image Generator Is a Game-Changer for Tanzania’s Creative and Marketing Industries",
+      "summary": "A practical look at how generative image tools can help Tanzanian marketers, educators and creatives develop ideas and visuals more quickly—while retaining human judgement and local context.",
+      "publishedAt": "2025-03-29",
+      "readTimeMinutes": 4,
+      "category": "AI & Creativity",
+      "tags": [
+        "AI",
+        "Creativity",
+        "ChatGPT",
+        "Photography",
+        "Advertising",
+        "Tanzania"
+      ],
+      "featured": true,
+      "file": "articles/how-chatgpt-4os-image-generator-is-a-game-changer-for-tanzanias-creative-and-marketing-industries.json"
+    },
+    {
+      "id": "how-can-communication-experts-incorporate-ai-into-their-daily-work",
+      "slug": "how-can-communication-experts-incorporate-ai-into-their-daily-work",
+      "title": "How can communication experts incorporate AI into their daily work?",
+      "summary": "A concise reflection on ethical, culturally relevant AI use in communication and adult learning, with people and local realities kept at the centre.",
+      "publishedAt": "2025-02-14",
+      "readTimeMinutes": 2,
+      "category": "AI & Communication",
+      "tags": [
+        "AI",
+        "Communication",
+        "PR",
+        "Public Relations",
+        "Adult Learning"
+      ],
+      "featured": false,
+      "file": "articles/how-can-communication-experts-incorporate-ai-into-their-daily-work.json"
+    },
+    {
+      "id": "how-can-we-use-the-moja-platform-in-tanzania",
+      "slug": "how-can-we-use-the-moja-platform-in-tanzania",
+      "title": "How can we use the MOJA Platform in Tanzania?",
+      "summary": "An introduction to MOJA as a space for African adult and non-formal education practitioners to share knowledge, tell stories and build professional connections.",
+      "publishedAt": "2024-10-14",
+      "readTimeMinutes": 4,
+      "category": "Knowledge Sharing",
+      "tags": [
+        "Digital Transformation",
+        "Digital",
+        "Adult Education",
+        "ANFE",
+        "MOJA",
+        "Tanzania"
+      ],
+      "featured": false,
+      "file": "articles/how-can-we-use-the-moja-platform-in-tanzania.json"
+    },
+    {
+      "id": "how-the-community-learning-centre-is-helping-adult-learners-achieve-sustainable-success",
+      "slug": "how-the-community-learning-centre-is-helping-adult-learners-achieve-sustainable-success",
+      "title": "How the Community Learning Centre is helping adult learners achieve Sustainable Success",
+      "summary": "A story of how the Hogoro Community Learning Centre combines literacy and ecological farming to help adult learners improve confidence, productivity and community life.",
+      "publishedAt": "2024-06-11",
+      "readTimeMinutes": 5,
+      "category": "Community Development",
+      "tags": [
+        "Adult Learning",
+        "Community",
+        "Sustainable Development",
+        "CLC",
+        "Functional Literacy",
+        "Agriculture"
+      ],
+      "featured": true,
+      "file": "articles/how-the-community-learning-centre-is-helping-adult-learners-achieve-sustainable-success.json"
+    },
+    {
+      "id": "cardamom-farming-the-green-gold-of-the-tropics",
+      "slug": "cardamom-farming-the-green-gold-of-the-tropics",
+      "title": "Cardamom Farming: The Green Gold of the Tropics",
+      "summary": "An accessible overview of cardamom cultivation, sustainable practices and the spice’s cultural value.",
+      "publishedAt": "2024-01-23",
+      "readTimeMinutes": 3,
+      "category": "Agriculture",
+      "tags": [
+        "Agriculture",
+        "Sustainable Farming",
+        "Cardamom",
+        "Organic Practices",
+        "Environment"
+      ],
+      "featured": false,
+      "file": "articles/cardamom-farming-the-green-gold-of-the-tropics.json"
+    },
+    {
+      "id": "from-hobby-to-passion-tanzanian-ui-ux-designer-overcomes-challenges-to-pursue-passion",
+      "slug": "from-hobby-to-passion-tanzanian-ui-ux-designer-overcomes-challenges-to-pursue-passion",
+      "title": "From Hobby to Passion: Tanzanian UI/UX Designer Overcomes Challenges to Pursue Passion",
+      "summary": "A personal account of developing a UI/UX design career in Tanzania through curiosity, collaboration and perseverance.",
+      "publishedAt": "2023-04-04",
+      "readTimeMinutes": 2,
+      "category": "Design Career",
+      "tags": [
+        "UI Design",
+        "UX Design",
+        "UX Research",
+        "Design Career",
+        "Tanzania"
+      ],
+      "featured": false,
+      "file": "articles/from-hobby-to-passion-tanzanian-ui-ux-designer-overcomes-challenges-to-pursue-passion.json"
+    },
+    {
+      "id": "ai-in-business-a-beginners-guide-to-boost-your-income-and-growth",
+      "slug": "ai-in-business-a-beginners-guide-to-boost-your-income-and-growth",
+      "title": "AI in Business: A Beginner’s Guide to Boost Your Income and Growth",
+      "summary": "A short introduction to an AI-for-business guide designed to help beginners understand tools, applications, implementation and risks.",
+      "publishedAt": "2023-02-21",
+      "readTimeMinutes": 2,
+      "category": "AI & Business",
+      "tags": [
+        "Basic Income",
+        "Digital Life",
+        "Design",
+        "AI",
+        "Business"
+      ],
+      "featured": false,
+      "file": "articles/ai-in-business-a-beginners-guide-to-boost-your-income-and-growth.json"
+    },
+    {
+      "id": "young-women-striving-in-agriculture-business",
+      "slug": "young-women-striving-in-agriculture-business",
+      "title": "Young women striving in Agriculture & Business",
+      "summary": "A profile of Salome Isaack’s journey from household dependence to agroecology, poultry and small-business entrepreneurship in Nzega District.",
+      "publishedAt": "2022-08-04",
+      "readTimeMinutes": 5,
+      "category": "Women & Agriculture",
+      "tags": [
+        "Organic Agriculture",
+        "Agroecology",
+        "Farming",
+        "Tanzania",
+        "Sunflower",
+        "Women’s Entrepreneurship"
+      ],
+      "featured": false,
+      "file": "articles/young-women-striving-in-agriculture-business.json"
+    }
+  ]
+}

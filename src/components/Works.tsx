@@ -1,81 +1,79 @@
+import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/sanity/lib/client";
-import { featuredProjectsQuery } from "@/sanity/lib/queries";
 import type { Project } from "@/sanity/types";
 
-export default async function Works() {
-  const projects = await client.fetch<Project[]>(featuredProjectsQuery);
+function ProjectImage({ project, index }: { project: Project; index: number }) {
+  if (!project.coverUrl) {
+    return (
+      <div className="placeholder-media aspect-[16/10]">
+        <span className="section-label">{project.title} / Visual pending</span>
+      </div>
+    );
+  }
 
   return (
-    <section id="works" className="py-24 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div>
-            <div className="flex items-center gap-3 font-[family-name:var(--font-dm-mono)] text-xs tracking-[0.15em] text-[#FF3333] uppercase mb-4">
-              <span className="w-6 h-[1px] bg-[#FF3333]"></span>
-              Selected Works
-            </div>
-            <h2 className="font-[family-name:var(--font-outfit)] text-4xl md:text-5xl font-medium text-black max-w-xl leading-tight">
-              Projects built for <span className="italic text-[#FF3333]">real impact</span>
-            </h2>
-          </div>
-          <Link
-            href="/works"
-            className="group flex items-center gap-2 px-6 py-3 rounded-full border border-gray-200 text-sm font-medium hover:bg-black hover:text-white transition-all duration-300"
-          >
-            View All Works
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
+    <div className={`media-frame relative ${index === 0 ? "aspect-[16/8]" : "aspect-[4/3]"}`}>
+      <Image
+        src={project.coverUrl}
+        alt={project.coverAlt || project.title}
+        fill
+        sizes={index === 0 ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+      />
+    </div>
+  );
+}
+
+export default function Works({ projects }: { projects: Project[] }) {
+  return (
+    <section id="work" className="bg-night px-4 py-24 md:py-36">
+      <div className="site-shell">
+        <div className="mb-16 grid gap-6 md:grid-cols-[0.34fr_1fr]">
+          <p className="section-label">Selected Work</p>
+          <h2 className="max-w-5xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.07em] md:text-8xl">
+            Image-led projects with strategy underneath.
+          </h2>
         </div>
 
         {projects.length === 0 ? (
-          <div className="rounded-[24px] border border-gray-100 bg-gray-50 p-10 text-center text-gray-500">
-            Add your first projects in Sanity Studio to feature them here.
+          <div className="placeholder-media">
+            <div className="max-w-md text-center">
+              <p className="section-label mb-4">Sanity empty state</p>
+              <p className="text-2xl font-bold text-ink">Add projects in Sanity Studio to populate this section.</p>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-            {projects.map((project) => (
+          <div className="grid gap-12 md:gap-20">
+            {projects.map((project, index) => (
               <Link
                 key={project._id}
-                href={`/works/${project.slug}`}
-                className="group cursor-pointer flex flex-col gap-6"
+                href={`/work/${project.slug}`}
+                className={`group grid gap-5 ${index > 0 ? "md:grid-cols-2 md:items-end" : ""} ${
+                  index === 2 ? "md:[&>*:first-child]:order-2" : ""
+                }`}
               >
-                <div className="relative overflow-hidden rounded-[24px] bg-gray-50 border border-gray-100 aspect-[4/3]">
-                  {project.coverUrl ? (
-                    <img
-                      src={project.coverUrl}
-                      alt={project.coverAlt || project.title}
-                      className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 group-hover:blur-[4px]"
-                    />
-                  ) : null}
-
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
-                        <path d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-3">
-                    <span className="font-[family-name:var(--font-dm-mono)] text-xs tracking-[0.15em] text-[#FF3333] uppercase">
-                      {project.category}
-                    </span>
-                    <span className="h-[1px] w-8 bg-gray-200"></span>
-                  </div>
-
-                  <h3 className="font-[family-name:var(--font-outfit)] text-2xl md:text-3xl font-medium text-black group-hover:text-[#FF3333] transition-colors duration-300">
+                <ProjectImage project={project} index={index} />
+                <div className={index === 0 ? "grid gap-4 md:grid-cols-[1fr_0.45fr]" : ""}>
+                  <h3 className="text-4xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-ink md:text-6xl">
                     {project.title}
                   </h3>
+                  <div className="mt-2 grid gap-3 text-sm text-muted">
+                    <p>{project.description}</p>
+                    <p className="section-label">
+                      {[project.category, project.year, project.role].filter(Boolean).join(" / ")}
+                    </p>
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
         )}
+
+        <div className="mt-16">
+          <Link href="/work" className="editorial-link text-lg font-bold">
+            View all work
+          </Link>
+        </div>
       </div>
     </section>
   );

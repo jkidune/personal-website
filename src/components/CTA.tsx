@@ -36,7 +36,7 @@ export default function CTA() {
         <a href="#works" style={{
           color: 'var(--text)', textDecoration: 'none',
           fontSize: '0.875rem', letterSpacing: '0.05em',
-        }}>View Work →</a>
+        }}>View Work -&gt;</a>
       </div>
     </section>
   )

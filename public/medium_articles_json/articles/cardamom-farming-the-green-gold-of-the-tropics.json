@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0",
+  "id": "cardamom-farming-the-green-gold-of-the-tropics",
+  "slug": "cardamom-farming-the-green-gold-of-the-tropics",
+  "title": "Cardamom Farming: The Green Gold of the Tropics",
+  "summary": "An accessible overview of cardamom cultivation, sustainable practices and the spice’s cultural value.",
+  "author": {
+    "name": "Joseph Masonda",
+    "profile": "https://medium.com/@kidunejoseph91",
+    "role": "Communications Officer | Digital Marketer | Website Designer | Content Creator | AI Enthusiast | Framer Developer | Writer"
+  },
+  "publishedAt": "2024-01-23",
+  "readTimeMinutes": 3,
+  "category": "Agriculture",
+  "tags": [
+    "Agriculture",
+    "Sustainable Farming",
+    "Cardamom",
+    "Organic Practices",
+    "Environment"
+  ],
+  "featured": false,
+  "status": "published",
+  "coverImage": {
+    "src": null,
+    "alt": "",
+    "credit": null,
+    "note": "Add a locally hosted cover image before publishing."
+  },
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Cardamom, often called the queen of spices, is a fragrant gem in kitchens and hearts worldwide. Beyond its culinary uses, the journey of cardamom from seed to spice is a story of tradition, dedication and sustainable agriculture."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "A tropical treasure"
+    },
+    {
+      "type": "paragraph",
+      "text": "Native to the lush forests of southern India, cardamom thrives in tropical climates. Its delicate green pods contain tiny black seeds with a distinctive spicy and sweet flavour. Today, cardamom farming has spread to different parts of the world, but its essence remains rooted in traditional farming practices."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Sustainable farming: a priority"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cardamom farmers are increasingly adopting sustainable approaches to support crop longevity and environmental health."
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Shade-grown cardamom: cardamom naturally grows under dense forest canopies. Farmers mimic this by planting under shade trees to provide appropriate sunlight and protection.",
+        "Organic practices: many farmers choose organic fertilisers and pesticides to maintain soil fertility and reduce harmful chemicals.",
+        "Water conservation: planting spice trees can help protect water catchment areas, including places such as the Uluguru Mountains."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Harvesting with care"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cardamom harvesting is a meticulous process. Pods must be picked when mature so they retain their vibrant green colour and robust flavour. Once harvested, they are sun-dried or machine-dried to preserve their aroma and taste."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Healthy benefit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cardamom is not only a flavourful spice; it has also long been used in traditional medicine. It contains antioxidants and is associated with anti-inflammatory properties. It is commonly discussed in relation to digestive health and traditional remedies."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Community and culture"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cardamom farming is deeply intertwined with the cultures of the regions where it is grown. Festivals, songs and community gatherings often surround the harvest season. The spice also plays an important role in local cuisine, medicine and rituals."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Conclusion"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cardamom is more than a spice. It symbolises heritage, community and sustainable agriculture. As it continues to flavour dishes around the world, its cultivation is a reminder of the balance between nature and nurture."
+    }
+  ],
+  "externalLinks": [],
+  "source": {
+    "platform": "Medium",
+    "originalUrl": "https://medium.com/@kidunejoseph91/cardamom-farming-the-green-gold-of-the-tropics-7ccd74e5fd43",
+    "importedFrom": "Medium profile"
+  },
+  "seo": {
+    "title": "Cardamom Farming: The Green Gold of the Tropics | Joseph Masonda",
+    "description": "An accessible overview of cardamom cultivation, sustainable practices and the spice’s cultural value.",
+    "keywords": [
+      "Agriculture",
+      "Sustainable Farming",
+      "Cardamom",
+      "Organic Practices",
+      "Environment"
+    ]
+  },
+  "wordCount": 317,
+  "lastPreparedAt": "2026-06-24"
+}

@@ -1,53 +1,153 @@
 @import "tailwindcss";
 
 @theme {
-  /* 🎨 Colors extracted from Framer */
-  --color-brand-red: #FF3333;
-  --color-brand-light-red: #F76D6D;
-  --color-brand-black: #000000;
-  --color-brand-text-gray: rgba(0, 0, 0, 0.7);
-  --color-brand-text-muted: rgba(0, 0, 0, 0.4);
-  --color-brand-mercury: #E8E8E8;
-  --color-brand-cod-gray: #191919;
-
-  /* 🔤 Typography */
-  --font-outfit: var(--font-outfit), sans-serif;
-
-  /* ☁️ Shadows */
-  --shadow-button-primary: 0px 13px 22px rgba(255, 120, 120, 0.3), 0px 3px 5px rgba(255, 120, 120, 0.3);
-  --shadow-button-secondary: 0px 4px 10px rgba(0, 0, 0, 0.05);
-  --shadow-avatar: 0px 8px 11px -2px rgba(255, 120, 120, 0.13), 0px 2px 4px rgba(255, 120, 120, 0.05);
-  --shadow-lightning: 0px 3px 4px rgba(120, 154, 255, 0.4), 0px 13px 17px 9px rgba(120, 156, 255, 0.17);
-
-  /* 🖼️ Gradients */
-  --background-image-gradient-button: linear-gradient(272.96deg, #F76D6D 0%, #FF3333 100%);
-  --background-image-gradient-lightning: linear-gradient(333deg, #6DA9F7 0%, #337AFF 100%);
-  
-  /* 🎬 Animations */
-  --animate-float-slow: float 6s ease-in-out infinite;
-  --animate-float-delayed: float 7s ease-in-out 3s infinite;
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(var(--tw-rotate)); }
-    50% { transform: translateY(-20px) rotate(var(--tw-rotate)); }
-  }
+  --color-ink: #f4f1eb;
+  --color-muted: #8f8b84;
+  --color-dim: #55514b;
+  --color-black: #050505;
+  --color-night: #090908;
+  --color-graphite: #151514;
+  --color-line: #24231f;
+  --color-accent: #d6c06a;
 }
 
-/* Base styles to ensure everything defaults to the new look */
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: #090908;
+    overflow-x: hidden;
   }
   
   body {
-    background-color: #FFFFFF;
-    color: var(--color-brand-text-gray);
-    font-family: var(--font-outfit);
+    min-height: 100vh;
+    overflow-x: hidden;
+    max-width: 100vw;
+    background: #090908;
+    color: #f4f1eb;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: var(--color-brand-black);
-    font-weight: 500;
+    color: #f4f1eb;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  a, button, input, select, textarea {
+    outline-color: #d6c06a;
+  }
+
+  ::selection {
+    background: #d6c06a;
+    color: #090908;
+  }
+}
+
+@layer components {
+  .site-shell {
+    width: min(calc(100vw - 32px), 1480px);
+    margin-inline: auto;
+  }
+
+  .site-shell .grid > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8f8b84;
+  }
+
+  .editorial-link {
+    color: #f4f1eb;
+    text-decoration: underline;
+    text-decoration-color: #55514b;
+    text-underline-offset: 0.32em;
+    transition: color 180ms ease, text-decoration-color 180ms ease;
+  }
+
+  .editorial-link:hover {
+    color: #d6c06a;
+    text-decoration-color: #d6c06a;
+  }
+
+  .media-frame {
+    overflow: hidden;
+    background: #151514;
+  }
+
+  .placeholder-media {
+    display: grid;
+    place-items: center;
+    min-height: 320px;
+    background:
+      linear-gradient(135deg, rgba(214, 192, 106, 0.18), transparent 42%),
+      linear-gradient(315deg, rgba(244, 241, 235, 0.09), transparent 48%),
+      #151514;
+    color: #8f8b84;
+  }
+
+  .prose-editorial {
+    color: #c9c4ba;
+    font-size: clamp(1.06rem, 1.6vw, 1.22rem);
+    line-height: 1.78;
+  }
+
+  .prose-editorial h2,
+  .prose-editorial h3 {
+    margin-top: 2.4em;
+    margin-bottom: 0.65em;
+    color: #f4f1eb;
+    line-height: 1.05;
+  }
+
+  .prose-editorial p,
+  .prose-editorial ul,
+  .prose-editorial ol,
+  .prose-editorial blockquote {
+    margin-bottom: 1.25em;
+  }
+
+  .prose-editorial a {
+    color: #d6c06a;
+    text-decoration: underline;
+    text-underline-offset: 0.24em;
+  }
+
+  .prose-editorial blockquote {
+    border-left: 1px solid #d6c06a;
+    padding-left: 1.25rem;
+    color: #f4f1eb;
+    font-size: 1.12em;
+  }
+}
+
+@keyframes trailFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+  16% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -58%) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -5,14 +5,30 @@ const projectFields = groq`
   title,
   "slug": slug.current,
   category,
+  client,
+  industry,
   description,
   fullDescription,
   "coverUrl": coverImage.asset->url,
   "coverAlt": coverImage.alt,
   liveUrl,
   githubUrl,
+  behanceUrl,
+  vimeoUrl,
   techStack,
+  services,
+  challenge,
+  approach,
+  deliverables,
+  outcome,
+  "gallery": gallery[]{
+    "url": asset->url,
+    "alt": alt,
+    "caption": caption,
+    "metadata": asset->metadata
+  },
   featured,
+  sortOrder,
   role,
   year,
   location,
@@ -27,6 +43,10 @@ const articleFields = groq`
   excerpt,
   content,
   tag,
+  tags,
+  category,
+  readTimeMinutes,
+  originalUrl,
   "coverUrl": coverImage.asset->url,
   "coverAlt": coverImage.alt,
   publishedAt,
@@ -34,13 +54,13 @@ const articleFields = groq`
 `;
 
 export const projectsQuery = groq`
-  *[_type == "project" && defined(slug.current)] | order(coalesce(publishedAt, _createdAt) desc) {
+  *[_type == "project" && defined(slug.current)] | order(coalesce(sortOrder, 9999) asc, coalesce(publishedAt, _createdAt) desc) {
     ${projectFields}
   }
 `;
 
 export const featuredProjectsQuery = groq`
-  *[_type == "project" && defined(slug.current)] | order(coalesce(featured, false) desc, coalesce(publishedAt, _createdAt) desc)[0...4] {
+  *[_type == "project" && defined(slug.current)] | order(coalesce(featured, false) desc, coalesce(sortOrder, 9999) asc, coalesce(publishedAt, _createdAt) desc)[0...4] {
     ${projectFields}
   }
 `;

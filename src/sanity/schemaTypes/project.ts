@@ -30,13 +30,14 @@ export const project = defineType({
           "Content Strategy",
         ],
       },
-      validation: (rule) => rule.required(),
     }),
+    defineField({ name: "client", type: "string" }),
+    defineField({ name: "industry", type: "string" }),
     defineField({
       name: "description",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.required().max(220),
+      validation: (rule) => rule.max(260),
     }),
     defineField({
       name: "fullDescription",
@@ -56,7 +57,6 @@ export const project = defineType({
           validation: (rule) => rule.required(),
         }),
       ],
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "liveUrl",
@@ -69,16 +69,50 @@ export const project = defineType({
       type: "url",
     }),
     defineField({
+      name: "behanceUrl",
+      title: "Behance URL",
+      type: "url",
+    }),
+    defineField({
+      name: "vimeoUrl",
+      title: "Vimeo URL",
+      type: "url",
+    }),
+    defineField({
       name: "techStack",
       title: "Tech stack",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({
+      name: "services",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({ name: "challenge", type: "text", rows: 4 }),
+    defineField({ name: "approach", type: "text", rows: 5 }),
+    defineField({ name: "deliverables", type: "array", of: [defineArrayMember({ type: "string" })] }),
+    defineField({ name: "outcome", type: "text", rows: 4 }),
+    defineField({
+      name: "gallery",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", type: "string", title: "Alternative text" }),
+            defineField({ name: "caption", type: "string" }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: "featured",
       type: "boolean",
       initialValue: false,
     }),
+    defineField({ name: "sortOrder", type: "number" }),
     defineField({
       name: "role",
       type: "string",
@@ -94,6 +128,8 @@ export const project = defineType({
       type: "string",
       initialValue: "Tanzania",
     }),
+    defineField({ name: "seoTitle", type: "string" }),
+    defineField({ name: "seoDescription", type: "text", rows: 2 }),
     defineField({
       name: "publishedAt",
       title: "Published at",

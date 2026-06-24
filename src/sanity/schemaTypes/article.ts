@@ -35,8 +35,15 @@ export const article = defineType({
           "Communications",
         ],
       },
-      validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "tags",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({ name: "category", type: "string" }),
+    defineField({ name: "readTimeMinutes", type: "number" }),
+    defineField({ name: "originalUrl", title: "Original Medium URL", type: "url" }),
     defineField({
       name: "coverImage",
       type: "image",
@@ -49,7 +56,6 @@ export const article = defineType({
           validation: (rule) => rule.required(),
         }),
       ],
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "content",

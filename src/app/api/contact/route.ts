@@ -2,8 +2,16 @@ import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  const { name, email, service, budget, message } = await req.json()
+  const { name, email, company, projectType, message, website } = await req.json()
   const apiKey = process.env.RESEND_API_KEY
+
+  if (website) {
+    return NextResponse.json({ success: true })
+  }
+
+  if (!name || !email || !message) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+  }
 
   if (!apiKey) {
     return NextResponse.json({ error: 'Email service is not configured' }, { status: 500 })
@@ -36,11 +44,11 @@ export async function POST(req: Request) {
             </tr>
             <tr>
               <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220; color: #7a7870; font-size: 0.85rem;">Service</td>
-              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220;">${service || 'Not specified'}</td>
+              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220;">${projectType || 'Not specified'}</td>
             </tr>
             <tr>
-              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220; color: #7a7870; font-size: 0.85rem;">Budget</td>
-              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220;">${budget || 'Not specified'}</td>
+              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220; color: #7a7870; font-size: 0.85rem;">Company</td>
+              <td style="padding: 0.75rem 0; border-bottom: 1px solid #222220;">${company || 'Not specified'}</td>
             </tr>
           </table>
 
@@ -54,7 +62,7 @@ export async function POST(req: Request) {
           <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #222220;">
             <a href="mailto:${email}?subject=Re: Your enquiry"
               style="display: inline-block; background: #c8b560; color: #0a0a08; padding: 0.75rem 1.5rem; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-              Reply to ${name} →
+              Reply to ${name}
             </a>
           </div>
 

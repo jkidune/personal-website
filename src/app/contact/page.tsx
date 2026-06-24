@@ -1,244 +1,145 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { FormEvent, useState } from "react";
+import { profile } from "@/lib/profile";
 
-const services = [
-  'Web Application',
-  'Portfolio Website',
-  'Digital Marketing',
-  'Content Strategy',
-  'Videography',
-  'Conservation Tech',
-  'Other',
-]
-
-const budgets = [
-  'Under $500',
-  '$500 – $1,500',
-  '$1,500 – $5,000',
-  '$5,000+',
-  'Let\'s discuss',
-]
+const projectTypes = [
+  "Communication strategy",
+  "Website design",
+  "Content strategy",
+  "Digital marketing",
+  "Campaign design",
+  "UI/UX design",
+  "Other",
+];
 
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    name: '', email: '', service: '', budget: '', message: '',
-  })
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
 
-  const update = (field: string, value: string) =>
-    setForm(prev => ({ ...prev, [field]: value }))
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    if (data.get("website")) return;
 
-  const submit = async () => {
-    if (!form.name || !form.email || !form.message) return
-    setStatus('sending')
+    const payload = {
+      name: String(data.get("name") || ""),
+      email: String(data.get("email") || ""),
+      company: String(data.get("company") || ""),
+      projectType: String(data.get("projectType") || ""),
+      message: String(data.get("message") || ""),
+    };
+
+    if (!payload.name || !payload.email || !payload.message) {
+      setError("Please complete your name, email, and message.");
+      return;
+    }
+
+    setStatus("sending");
+    setError("");
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-      if (!res.ok) throw new Error('Email failed')
-
-      setStatus('sent')
-    } catch (err) {
-      console.error(err)
-      setStatus('error')
+      if (!response.ok) throw new Error("Message failed");
+      setStatus("sent");
+      form.reset();
+    } catch {
+      setStatus("error");
+      setError(`The form could not send right now. Please email ${profile.email}.`);
     }
   }
 
   return (
-    <main className="min-h-screen bg-white pt-32 pb-20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-          {/* Left — Intro */}
-          <div className="lg:sticky lg:top-32">
-            <div className="flex items-center gap-3 font-[family-name:var(--font-dm-mono)] text-xs tracking-[0.15em] text-[#FF3333] uppercase mb-6">
-              <span className="w-6 h-[1px] bg-[#FF3333]"></span>
-              Get in Touch
-            </div>
-            
-            <h1 className="font-[family-name:var(--font-outfit)] text-4xl md:text-5xl lg:text-6xl font-medium text-black leading-[1.1] mb-6">
-              Let's build something<br />
-              <span className="italic text-[#FF3333]">worth remembering</span>
+    <main className="min-h-screen bg-night px-4 pb-24 pt-32">
+      <div className="site-shell">
+        <header className="mb-16 grid gap-8 md:grid-cols-[1fr_0.36fr] md:items-end">
+          <div>
+            <p className="section-label mb-5">Contact</p>
+            <h1 className="text-7xl font-black uppercase leading-[0.86] tracking-[-0.075em] md:text-[12rem]">
+              Let&apos;s talk.
             </h1>
-            
-            <p className="text-lg text-gray-500 leading-relaxed mb-12 max-w-md">
-              Whether you have a clear brief or just an idea on a napkin — I'd love to hear about it.
-              I typically respond within 24 hours.
-            </p>
+          </div>
+          <div className="text-sm leading-relaxed text-muted">
+            <p>Tell Joseph what you are building, changing, publishing, or communicating.</p>
+            <a href={`mailto:${profile.email}`} className="editorial-link mt-4 inline-block">{profile.email}</a>
+          </div>
+        </header>
 
-            {/* Contact Details */}
-            <div className="flex flex-col gap-6">
-              {[
-                { label: 'Email', value: 'kidunejoseph91@gmail.com', href: 'mailto:kidunejoseph91@gmail.com' },
-                { label: 'Website', value: 'josephmasonda.qzz.io', href: 'https://josephmasonda.qzz.io' },
-                { label: 'Location', value: 'Dar es Salaam, Tanzania', href: null },
-              ].map(({ label, value, href }) => (
-                <div key={label} className="group border-b border-gray-100 pb-4">
-                  <span className="block font-[family-name:var(--font-dm-mono)] text-[10px] tracking-[0.15em] text-[#FF3333] uppercase mb-2">
-                    {label}
-                  </span>
-                  {href ? (
-                    <a 
-                      href={href} 
-                      className="text-lg text-black hover:text-[#FF3333] transition-colors duration-200 font-[family-name:var(--font-outfit)]"
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <span className="text-lg text-black font-[family-name:var(--font-outfit)]">
-                      {value}
-                    </span>
-                  )}
-                </div>
-              ))}
+        <div className="grid gap-16 lg:grid-cols-[0.35fr_1fr]">
+          <aside className="grid content-start gap-8 text-sm text-muted">
+            <div>
+              <p className="section-label mb-3">Location</p>
+              <p className="text-ink">{profile.location}</p>
             </div>
-          </div>
-
-          {/* Right — Form */}
-          <div className="bg-gray-50 rounded-[32px] p-8 md:p-12 border border-gray-100">
-            {status === 'sent' ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-[#FF3333]/10 text-[#FF3333] rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
-                  ✦
-                </div>
-                <h2 className="font-[family-name:var(--font-outfit)] text-2xl font-medium text-black mb-3">
-                  Message sent successfully
-                </h2>
-                <p className="text-gray-500 mb-8 max-w-sm mx-auto">
-                  Thanks for reaching out. I'll review your message and get back to you within 24 hours.
-                </p>
-                <Link
-                  href="/"
-                  className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-black text-white hover:bg-[#FF3333] transition-colors duration-300 font-medium"
-                >
-                  Back to Home
-                </Link>
+            <div>
+              <p className="section-label mb-3">Profiles</p>
+              <div className="grid gap-2">
+                {profile.portfolioLinks.map((link) => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="editorial-link">{link.label}</a>
+                ))}
               </div>
-            ) : (
-              <div className="flex flex-col gap-8">
-                {/* Name & Email */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    { field: 'name', label: 'Your Name', placeholder: 'Joseph Masonda', type: 'text' },
-                    { field: 'email', label: 'Email Address', placeholder: 'you@example.com', type: 'email' },
-                  ].map(({ field, label, placeholder, type }) => (
-                    <div key={field} className="flex flex-col gap-2">
-                      <label className="font-[family-name:var(--font-dm-mono)] text-[10px] tracking-[0.15em] text-[#FF3333] uppercase">
-                        {label}
-                      </label>
-                      <input
-                        type={type}
-                        placeholder={placeholder}
-                        value={form[field as keyof typeof form]}
-                        onChange={e => update(field, e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-xl px-6 py-4 text-black placeholder:text-gray-300 focus:outline-none focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] transition-all duration-200"
-                      />
-                    </div>
-                  ))}
-                </div>
+            </div>
+          </aside>
 
-                {/* Service */}
-                <div className="flex flex-col gap-3">
-                  <label className="font-[family-name:var(--font-dm-mono)] text-[10px] tracking-[0.15em] text-[#FF3333] uppercase">
-                    Service Needed
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {services.map(s => (
-                      <button
-                        key={s}
-                        onClick={() => update('service', s)}
-                        className={`
-                          px-4 py-2 rounded-full text-sm transition-all duration-200 border
-                          ${form.service === s 
-                            ? 'bg-[#FF3333] text-white border-[#FF3333]' 
-                            : 'bg-white text-gray-500 border-gray-200 hover:border-[#FF3333] hover:text-[#FF3333]'
-                          }
-                        `}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+          <form onSubmit={submit} className="grid gap-6" noValidate>
+            <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+            <div className="grid gap-6 md:grid-cols-2">
+              <Field label="Name" name="name" required />
+              <Field label="Email" name="email" type="email" required />
+            </div>
+            <Field label="Company or organization" name="company" />
+            <label className="grid gap-2">
+              <span className="section-label">Project type</span>
+              <select name="projectType" className="border-b border-line bg-transparent py-4 text-ink focus:border-accent">
+                <option value="">Select a type</option>
+                {projectTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-2">
+              <span className="section-label">Message *</span>
+              <textarea
+                name="message"
+                required
+                rows={7}
+                className="border border-line bg-transparent p-4 text-ink placeholder:text-dim focus:border-accent"
+                placeholder="Share context, goals, timeline, and any links."
+              />
+            </label>
 
-                {/* Budget */}
-                <div className="flex flex-col gap-3">
-                  <label className="font-[family-name:var(--font-dm-mono)] text-[10px] tracking-[0.15em] text-[#FF3333] uppercase">
-                    Project Budget
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {budgets.map(b => (
-                      <button
-                        key={b}
-                        onClick={() => update('budget', b)}
-                        className={`
-                          px-4 py-2 rounded-full text-sm transition-all duration-200 border
-                          ${form.budget === b 
-                            ? 'bg-[#FF3333] text-white border-[#FF3333]' 
-                            : 'bg-white text-gray-500 border-gray-200 hover:border-[#FF3333] hover:text-[#FF3333]'
-                          }
-                        `}
-                      >
-                        {b}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+            <div aria-live="polite" className="min-h-6 text-sm text-accent">
+              {status === "sent" ? "Message sent. Joseph will get back to you soon." : error}
+            </div>
 
-                {/* Message */}
-                <div className="flex flex-col gap-2">
-                  <label className="font-[family-name:var(--font-dm-mono)] text-[10px] tracking-[0.15em] text-[#FF3333] uppercase">
-                    Your Message
-                  </label>
-                  <textarea
-                    placeholder="Tell me about your project — what you're building, what you need, and any timeline you have in mind..."
-                    value={form.message}
-                    onChange={e => update('message', e.target.value)}
-                    rows={6}
-                    className="w-full bg-white border border-gray-200 rounded-xl px-6 py-4 text-black placeholder:text-gray-300 focus:outline-none focus:border-[#FF3333] focus:ring-1 focus:ring-[#FF3333] transition-all duration-200 resize-none leading-relaxed"
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  onClick={submit}
-                  disabled={status === 'sending' || !form.name || !form.email || !form.message}
-                  className={`
-                    w-full py-4 rounded-full font-[family-name:var(--font-outfit)] font-medium text-lg transition-all duration-300 flex items-center justify-center gap-2
-                    ${(!form.name || !form.email || !form.message)
-                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-black text-white hover:bg-[#FF3333] hover:shadow-[0_13px_22px_rgba(255,120,120,0.3)] hover:-translate-y-1'
-                    }
-                  `}
-                >
-                  {status === 'sending' ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Sending...
-                    </>
-                  ) : 'Send Message'}
-                </button>
-
-                {status === 'error' && (
-                  <p className="text-red-500 text-sm text-center">
-                    Something went wrong. Please email directly at kidunejoseph91@gmail.com
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="w-fit bg-ink px-8 py-4 text-sm font-bold uppercase tracking-[0.08em] text-night transition-colors hover:bg-accent disabled:opacity-50"
+            >
+              {status === "sending" ? "Sending" : "Send message"}
+            </button>
+          </form>
         </div>
       </div>
     </main>
-  )
+  );
+}
+
+function Field({ label, name, type = "text", required = false }: { label: string; name: string; type?: string; required?: boolean }) {
+  return (
+    <label className="grid gap-2">
+      <span className="section-label">{label}{required ? " *" : ""}</span>
+      <input
+        name={name}
+        type={type}
+        required={required}
+        className="border-b border-line bg-transparent py-4 text-ink placeholder:text-dim focus:border-accent"
+      />
+    </label>
+  );
 }

@@ -30,7 +30,7 @@ export default function Testimonials() {
             <div key={i} className="bg-white p-8 rounded-[32px] border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full">
               
               <div className="mb-8">
-                <span className="text-4xl text-[#FF3333] font-[family-name:var(--font-outfit)] leading-none">“</span>
+                <span className="text-4xl text-[#FF3333] font-[family-name:var(--font-outfit)] leading-none">&quot;</span>
                 <p className="font-[family-name:var(--font-outfit)] text-lg text-black leading-relaxed mt-2">
                   {t.quote}
                 </p>
