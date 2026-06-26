@@ -1,48 +1,83 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #f4f1eb;
-  --color-muted: #8f8b84;
-  --color-dim: #55514b;
+  --color-paper: #faf7f3;
+  --color-ink: #111111;
+  --color-muted: #706d68;
+  --color-dim: #aaa59d;
+
   --color-black: #050505;
   --color-night: #090908;
   --color-graphite: #151514;
-  --color-line: #24231f;
+  --color-line: #ded9d2;
   --color-accent: #d6c06a;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    background: #090908;
-    overflow-x: hidden;
+    background: #faf7f3;
+    overflow-x: visible;
   }
-  
+
   body {
+    position: relative;
+    isolation: isolate;
     min-height: 100vh;
-    overflow-x: hidden;
     max-width: 100vw;
-    background: #090908;
-    color: #f4f1eb;
+    overflow-x: visible;
+    background: #faf7f3;
+    color: #111111;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    color: #f4f1eb;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #111111;
     font-weight: 800;
     letter-spacing: -0.04em;
   }
 
-  a, button, input, select, textarea {
+  a,
+  button,
+  input,
+  select,
+  textarea {
     outline-color: #d6c06a;
   }
 
   ::selection {
-    background: #d6c06a;
-    color: #090908;
+    background: #111111;
+    color: #faf7f3;
   }
+}
+
+/* Global grain texture */
+.site-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: url("/body/noise.png");
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 260px 260px;
+
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+}
+
+.site-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
 }
 
 @layer components {
@@ -51,30 +86,32 @@
     margin-inline: auto;
   }
 
-  .site-shell .grid > * {
+  .site-shell .grid>* {
     min-width: 0;
     max-width: 100%;
   }
 
   .section-label {
+    color: #706d68;
     font-size: 0.72rem;
     line-height: 1;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #8f8b84;
   }
 
   .editorial-link {
-    color: #f4f1eb;
+    color: #111111;
     text-decoration: underline;
-    text-decoration-color: #55514b;
+    text-decoration-color: #aaa59d;
     text-underline-offset: 0.32em;
-    transition: color 180ms ease, text-decoration-color 180ms ease;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
   }
 
   .editorial-link:hover {
-    color: #d6c06a;
-    text-decoration-color: #d6c06a;
+    color: #111111;
+    text-decoration-color: #111111;
   }
 
   .media-frame {
@@ -84,17 +121,17 @@
 
   .placeholder-media {
     display: grid;
-    place-items: center;
     min-height: 320px;
+    place-items: center;
     background:
-      linear-gradient(135deg, rgba(214, 192, 106, 0.18), transparent 42%),
-      linear-gradient(315deg, rgba(244, 241, 235, 0.09), transparent 48%),
+      linear-gradient(135deg, rgba(214, 192, 106, 0.2), transparent 42%),
+      linear-gradient(315deg, rgba(244, 241, 235, 0.1), transparent 48%),
       #151514;
-    color: #8f8b84;
+    color: #aaa59d;
   }
 
   .prose-editorial {
-    color: #c9c4ba;
+    color: #3f3b36;
     font-size: clamp(1.06rem, 1.6vw, 1.22rem);
     line-height: 1.78;
   }
@@ -103,7 +140,7 @@
   .prose-editorial h3 {
     margin-top: 2.4em;
     margin-bottom: 0.65em;
-    color: #f4f1eb;
+    color: #111111;
     line-height: 1.05;
   }
 
@@ -115,15 +152,20 @@
   }
 
   .prose-editorial a {
-    color: #d6c06a;
+    color: #111111;
     text-decoration: underline;
+    text-decoration-color: #706d68;
     text-underline-offset: 0.24em;
   }
 
+  .prose-editorial a:hover {
+    text-decoration-color: #111111;
+  }
+
   .prose-editorial blockquote {
-    border-left: 1px solid #d6c06a;
+    border-left: 1px solid #111111;
     padding-left: 1.25rem;
-    color: #f4f1eb;
+    color: #111111;
     font-size: 1.12em;
   }
 }
@@ -133,10 +175,12 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.82);
   }
+
   16% {
     opacity: 0.92;
     transform: translate(-50%, -50%) scale(1);
   }
+
   100% {
     opacity: 0;
     transform: translate(-50%, -58%) scale(0.96);
@@ -144,7 +188,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;

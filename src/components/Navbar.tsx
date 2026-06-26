@@ -1,99 +1,129 @@
-'use client'
+"use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { profile } from "@/lib/profile";
+import { useEffect, useRef, useState } from "react";
 
 const navLinks = [
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
-  { label: "Archive", href: "/archive" },
+  { label: "About Me", href: "/about" },
+  { label: "Services", href: "/work" },
+  { label: "Projects", href: "/archive" },
   { label: "Contact", href: "/contact" },
 ];
 
+function MenuDotsIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="18"
+      height="4"
+      viewBox="0 0 18 4"
+      fill="none"
+    >
+      <circle cx="2" cy="2" r="2" fill="currentColor" />
+      <circle cx="9" cy="2" r="2" fill="currentColor" />
+      <circle cx="16" cy="2" r="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+    >
+      <path
+        d="M3 3L15 15M15 3L3 15"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 18);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("pointerdown", closeOnOutsideClick);
+
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("pointerdown", closeOnOutsideClick);
+    };
   }, []);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 px-4 py-4">
+    <header
+      ref={menuRef}
+      className="fixed left-1/2 top-5 z-50 -translate-x-1/2"
+    >
       <nav
-        className={`mx-auto flex w-full max-w-[1480px] items-center justify-between transition-colors duration-300 ${
-          scrolled ? "bg-night/82 px-4 py-3 backdrop-blur-md" : "py-2"
-        }`}
         aria-label="Primary navigation"
+        className={`relative w-[320px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[20px] bg-[#111111] shadow-[0_16px_45px_rgba(0,0,0,0.22)] transition-[height] duration-300 ease-out ${open ? "h-[260px]" : "h-[60px]"
+          }`}
       >
-        <Link
-          href="/"
-          className="text-sm font-bold uppercase tracking-[0.02em] text-ink transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-        >
-          JOSEPH MASONDA
-        </Link>
+        <div className="flex h-[60px] items-center justify-between px-4">
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="text-[22px] font-semibold tracking-[-0.06em] text-[#f5f3ee] outline-none transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-[#f5f3ee] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111]"
+          >
+            Masonda
+          </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-ink/82 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <button
+            type="button"
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+            aria-controls="site-menu"
+            onClick={() => setOpen((current) => !current)}
+            className="grid h-9 w-11 place-items-center rounded-[8px] bg-[#f5f3ee] text-[#111111] outline-none transition-transform duration-200 hover:scale-[0.96] focus-visible:ring-2 focus-visible:ring-[#f5f3ee] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111]"
+          >
+            {open ? <CloseIcon /> : <MenuDotsIcon />}
+          </button>
         </div>
 
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-controls="site-menu"
-          onClick={() => setOpen((value) => !value)}
-          className="text-sm text-ink transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+        <div
+          id="site-menu"
+          className={`px-4 pb-4 pt-2 transition-all duration-200 ${open
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
+            }`}
         >
-          Menu
-        </button>
-      </nav>
-
-      <div
-        id="site-menu"
-        className={`mx-auto mt-3 w-full max-w-[1480px] overflow-hidden bg-graphite/96 backdrop-blur-md transition-all duration-300 ${
-          open ? "max-h-[560px] border border-line" : "max-h-0 border border-transparent"
-        }`}
-      >
-        <div className="grid gap-10 p-6 md:grid-cols-[1fr_0.7fr] md:p-10">
-          <div className="grid gap-3">
+          <div className="flex flex-col items-start gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="text-4xl font-black uppercase leading-none tracking-[-0.06em] text-ink transition-colors hover:text-accent md:text-6xl"
+                className="rounded-[8px] bg-[#f5f3ee] px-4 py-[8px] text-[15px] font-medium leading-[18px] tracking-[-0.03em] text-[#111111] outline-none transition-transform duration-200 hover:scale-[0.97] focus-visible:ring-2 focus-visible:ring-[#f5f3ee] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111]"
               >
                 {link.label}
               </Link>
             ))}
           </div>
-          <div className="flex flex-col justify-between gap-8 text-sm text-muted">
-            <p className="max-w-sm leading-relaxed">{profile.shortLine}</p>
-            <div className="grid gap-3">
-              {profile.portfolioLinks.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="editorial-link">
-                  {link.label}
-                </a>
-              ))}
-              <a className="editorial-link" href={`mailto:${profile.email}`}>
-                Email
-              </a>
-            </div>
-          </div>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
