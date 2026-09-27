@@ -13,18 +13,36 @@ const links: { label: string; href: string; icon: IconName }[] = [
   { label: "Writing & ideas", href: "/archive", icon: "article" },
   { label: "Get in touch", href: "/contact", icon: "chat" },
 ];
+
 export default function Navbar() {
   const pathname = usePathname();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   useEffect(() => {
     if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") { setOpen(false); triggerRef.current?.focus(); }
+      if (event.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [open]);
+
   return (
     <>
       <header className="mobile-bar">
@@ -52,6 +70,7 @@ export default function Navbar() {
       <aside
         id="portfolio-sidebar"
         className={`sidebar ${open ? "is-open" : ""}`}
+        aria-label="Portfolio navigation"
       >
         <Link href="/" className="identity" onClick={() => setOpen(false)}>
           <Image
