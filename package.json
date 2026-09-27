@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "COPYFILE_DISABLE=1 next build",
+    "build": "COPYFILE_DISABLE=1 next build && find .next -name '._*' -type f -delete && opennextjs-cloudflare build --skipNextBuild",
     "preview": "COPYFILE_DISABLE=1 next build && find .next -name '._*' -type f -delete && opennextjs-cloudflare build --skipNextBuild && opennextjs-cloudflare preview",
     "deploy": "COPYFILE_DISABLE=1 next build && find .next -name '._*' -type f -delete && opennextjs-cloudflare build --skipNextBuild && opennextjs-cloudflare deploy",
     "cf-build": "COPYFILE_DISABLE=1 next build && find .next -name '._*' -type f -delete && opennextjs-cloudflare build --skipNextBuild",
