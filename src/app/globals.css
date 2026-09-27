@@ -90,6 +90,7 @@ svg {
   min-height: 100vh;
   margin: 0 auto;
   background: var(--canvas);
+  box-shadow: 0 0 0 1px #d8d6d240, 0 24px 80px #27231f0a;
 }
 .sidebar {
   position: fixed;
@@ -288,7 +289,8 @@ svg {
 .card {
   background: var(--surface);
   border-radius: 20px;
-  border: 1px solid #e9e8e680;
+  border: 1px solid #e9e8e6;
+  box-shadow: 0 1px 2px #1c1b1a05, 0 12px 30px #30294105;
 }
 .intro-grid {
   display: grid;
@@ -549,14 +551,16 @@ a.art-panel:hover img {
   background: #fff;
   border: 1px solid #ecebea;
   overflow: hidden;
-  box-shadow: 0 2px 3px #00000002;
+  box-shadow: 0 1px 2px #1c1b1a04, 0 8px 24px #30294104;
   transition:
+    transform 0.2s ease,
     box-shadow 0.2s,
     border-color 0.2s;
 }
 .project-card:hover,
 .article-card:hover {
-  box-shadow: 0 8px 22px #3029410a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px #3029410c;
   border-color: #cfc8e2;
 }
 .project-card-top {
@@ -1408,14 +1412,15 @@ a.art-panel:hover img {
   }
   .sidebar {
     top: 67px;
-    width: 256px;
+    width: min(286px, calc(100vw - 46px));
     visibility: hidden;
-    transform: translateX(-100%);
+    transform: translateX(-104%);
     transition:
-      transform 0.2s,
-      visibility 0.2s;
+      transform 0.22s ease,
+      visibility 0.22s;
     padding: 22px 18px;
     z-index: 40;
+    box-shadow: 18px 0 46px #1f1d1a12;
   }
   .sidebar.is-open {
     visibility: visible;
@@ -1426,6 +1431,7 @@ a.art-panel:hover img {
     position: fixed;
     inset: 67px 0 0;
     background: #20202044;
+    backdrop-filter: blur(2px);
     z-index: 35;
     border: 0;
   }
