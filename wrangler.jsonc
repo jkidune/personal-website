@@ -11,6 +11,13 @@
   "observability": {
     "enabled": true
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "personal-website-contact",
+      "database_id": "39978007-3167-4976-99bc-6a9c6f17de34"
+    }
+  ],
   "routes": [
     "josephmasonda.qzz.io/*"
   ]
