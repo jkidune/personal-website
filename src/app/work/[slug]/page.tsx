@@ -1,135 +1,176 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { client } from "@/sanity/lib/client";
-import { projectBySlugQuery, relatedProjectsQuery } from "@/sanity/lib/queries";
-import type { Project } from "@/sanity/types";
-
-type ProjectPageProps = {
-  params: Promise<{ slug: string }>;
-};
-
-function metaRows(project: Project) {
-  return [
-    ["Client", project.client || project.category],
+import { getProjects } from "@/lib/projects";
+import ProjectCard from "@/components/ProjectCard";
+import Icon from "@/components/Icon";
+type Props = { params: Promise<{ slug: string }> };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const { projects } = await getProjects();
+  const project = projects.find((p) => p.slug === slug);
+  return {
+    title: project?.title || "Project",
+    description: project?.description,
+  };
+}
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params;
+  const { projects, unavailable } = await getProjects();
+  const project = projects.find((p) => p.slug === slug);
+  if (unavailable)
+    return (
+      <main className="page">
+        <div className="card empty-card">
+          <h1>This project is temporarily unavailable.</h1>
+          <p>Please try again shortly, or contact me for more details.</p>
+          <Link href="/contact" className="button button-dark">
+            Get in touch
+          </Link>
+        </div>
+      </main>
+    );
+  if (!project) notFound();
+  const related = projects.filter((p) => p.slug !== slug).slice(0, 2);
+  const facts = [
+    ["Client", project.client],
     ["Year", project.year?.toString()],
     ["Role", project.role],
     ["Services", project.services?.join(", ") || project.category],
     ["Tools", project.techStack?.join(", ")],
   ].filter(([, value]) => value);
-}
-
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params;
-  const project = await client.fetch<Project | null>(projectBySlugQuery, { slug });
-  if (!project) notFound();
-
-  const related = await client.fetch<Project[]>(relatedProjectsQuery, { slug });
-
   return (
-    <main className="min-h-screen bg-night pb-24 pt-28">
-      <article>
-        <header className="site-shell px-4 pb-10">
-          <p className="section-label mb-5">{project.category || "Project"}</p>
-          <h1 className="max-w-6xl text-6xl font-black uppercase leading-[0.86] tracking-[-0.075em] md:text-[10rem]">
-            {project.title}
-          </h1>
-        </header>
-
-        <div className="media-frame relative aspect-[16/10] md:aspect-[16/7]">
-          {project.coverUrl ? (
-            <Image src={project.coverUrl} alt={project.coverAlt || project.title} fill priority sizes="100vw" className="object-cover" />
-          ) : (
-            <div className="placeholder-media h-full">
-              <span className="section-label">{project.title} / Visual pending</span>
-            </div>
+    <main className="page">
+      <Link className="detail-back" href="/work">
+        <Icon name="back" width="16" height="16" />
+        All projects
+      </Link>
+      <header className="detail-header">
+        <span className="eyebrow">
+          {project.category || "Selected project"}
+        </span>
+        <h1>{project.title}</h1>
+        {project.description && <p>{project.description}</p>}
+      </header>
+      <div className="detail-cover">
+        <Image
+          src={project.coverUrl || "/images/paper-flow.webp"}
+          alt={project.coverUrl ? project.coverAlt || project.title : ""}
+          fill
+          priority
+          sizes="(min-width: 1000px) 75vw, 100vw"
+        />
+      </div>
+      <div className="detail-layout">
+        <div className="card detail-notes">
+          {project.fullDescription && (
+            <section>
+              <h2>Overview</h2>
+              <p>{project.fullDescription}</p>
+            </section>
           )}
+          {[
+            ["The challenge", project.challenge],
+            ["The approach", project.approach],
+            ["The outcome", project.outcome],
+          ]
+            .filter(([, value]) => value)
+            .map(([label, value]) => (
+              <section key={label}>
+                <h2>{label}</h2>
+                <p>{value}</p>
+              </section>
+            ))}
+          {Boolean(project.deliverables?.length) && (
+            <section>
+              <h2>Deliverables</h2>
+              <ul>
+                {project.deliverables?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {!project.fullDescription &&
+            !project.challenge &&
+            !project.approach &&
+            !project.outcome &&
+            !project.deliverables?.length && (
+              <section>
+                <h2>About this project</h2>
+                <p>
+                  {project.description ||
+                    `A selection from my work in ${project.category?.toLowerCase() || "communication and design"}.`}
+                </p>
+                <p>
+                  Get in touch to learn more about the process and my
+                  contribution.
+                </p>
+              </section>
+            )}
         </div>
-
-        <div className="site-shell grid gap-14 px-4 py-16 lg:grid-cols-[1fr_0.42fr]">
-          <div>
-            <p className="max-w-4xl text-2xl font-bold leading-tight text-ink md:text-5xl">
-              {project.description || project.fullDescription || "Project details are being prepared in Sanity."}
-            </p>
-            {project.fullDescription ? (
-              <p className="mt-10 max-w-3xl whitespace-pre-line text-lg leading-relaxed text-muted">{project.fullDescription}</p>
-            ) : null}
-          </div>
-          <div className="border-t border-line">
-            {metaRows(project).map(([label, value]) => (
-              <div key={label} className="grid grid-cols-[0.35fr_1fr] gap-4 border-b border-line py-4 text-sm">
-                <span className="section-label">{label}</span>
-                <span className="text-ink">{value}</span>
+        <aside className="card project-facts">
+          <dl>
+            {facts.map(([label, value]) => (
+              <div className="fact" key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="site-shell grid gap-12 px-4 lg:grid-cols-[0.32fr_1fr]">
-          <p className="section-label">Project Notes</p>
-          <div className="grid gap-10 md:grid-cols-2">
-            {[
-              ["Challenge", project.challenge],
-              ["Approach", project.approach],
-              ["Outcome", project.outcome],
-            ].filter(([, value]) => value).map(([label, value]) => (
-              <section key={label}>
-                <h2 className="mb-4 text-2xl font-black uppercase tracking-[-0.04em]">{label}</h2>
-                <p className="leading-relaxed text-muted">{value}</p>
-              </section>
-            ))}
-            {project.deliverables && project.deliverables.length > 0 ? (
-              <section>
-                <h2 className="mb-4 text-2xl font-black uppercase tracking-[-0.04em]">Deliverables</h2>
-                <ul className="grid gap-2 text-muted">
-                  {project.deliverables.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </section>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="site-shell grid gap-6 px-4 py-20">
-          {(project.gallery || []).length > 0 ? (
-            project.gallery?.map((image, index) => image.url ? (
-              <figure key={`${image.url}-${index}`} className={`media-frame relative ${index % 3 === 0 ? "aspect-[16/8]" : "aspect-[4/3]"}`}>
-                <Image src={image.url} alt={image.alt || project.title} fill sizes="100vw" className="object-cover" />
-                {image.caption ? <figcaption className="absolute bottom-3 left-3 text-xs text-ink/80">{image.caption}</figcaption> : null}
-              </figure>
-            ) : null)
-          ) : (
-            <div className="placeholder-media">
-              <span className="section-label">Gallery can be added in Sanity</span>
-            </div>
-          )}
-        </div>
-
-        <div className="site-shell flex flex-wrap gap-4 px-4">
+          </dl>
           {[
-            ["Website", project.liveUrl],
+            ["View website", project.liveUrl],
             ["Behance", project.behanceUrl],
             ["GitHub", project.githubUrl],
             ["Vimeo", project.vimeoUrl],
-          ].filter(([, href]) => href).map(([label, href]) => (
-            <a key={label} href={href} target="_blank" rel="noreferrer" className="editorial-link font-bold">
-              {label}
-            </a>
-          ))}
+          ]
+            .filter(([, href]) => href)
+            .map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                className="button button-light"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {label}
+                <Icon name="arrow" width="16" height="16" />
+              </a>
+            ))}
+        </aside>
+      </div>
+      {Boolean(project.gallery?.length) && (
+        <div className="gallery-grid">
+          {project.gallery
+            ?.filter((image) => image.url)
+            .map((image, index) => (
+              <figure key={`${image.url}-${index}`}>
+                <div className="gallery-photo">
+                  <Image
+                    src={image.url!}
+                    alt={image.alt || project.title}
+                    fill
+                    sizes="(min-width: 700px) 40vw, 100vw"
+                  />
+                </div>
+                {image.caption && <figcaption>{image.caption}</figcaption>}
+              </figure>
+            ))}
         </div>
-      </article>
-
-      {related.length > 0 ? (
-        <section className="site-shell mt-24 border-t border-line px-4 pt-10">
-          <p className="section-label mb-8">Next Projects</p>
-          <div className="grid gap-6 md:grid-cols-2">
-            {related.map((item) => (
-              <Link key={item._id} href={`/work/${item.slug}`} className="text-4xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-ink hover:text-accent">
-                {item.title}
-              </Link>
+      )}
+      {related.length > 0 && (
+        <section className="section-block">
+          <div className="section-heading">
+            <h2>More to explore</h2>
+          </div>
+          <div className="project-grid collection-grid">
+            {related.map((item, index) => (
+              <ProjectCard key={item._id} project={item} index={index} />
             ))}
           </div>
         </section>
-      ) : null}
+      )}
     </main>
   );
 }
