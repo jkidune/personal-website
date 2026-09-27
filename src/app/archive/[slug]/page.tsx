@@ -1,65 +1,103 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { formatArchiveDate, getArchiveArticle, getArchiveIndex } from "@/lib/archive";
-
-type ArchivePageProps = {
-  params: Promise<{ slug: string }>;
-};
-
+import {
+  formatArchiveDate,
+  getArchiveArticle,
+  getArchiveIndex,
+} from "@/lib/archive";
+import { articleArtwork } from "@/components/ArticleCard";
+import Icon from "@/components/Icon";
+type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
   return getArchiveIndex().map((article) => ({ slug: article.slug }));
 }
-
-export default async function ArchiveArticlePage({ params }: ArchivePageProps) {
-  const { slug } = await params;
-  const article = getArchiveArticle(slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const article = getArchiveArticle((await params).slug);
+  return { title: article?.title || "Story", description: article?.summary };
+}
+export default async function ArchiveArticlePage({ params }: Props) {
+  const article = getArchiveArticle((await params).slug);
   if (!article) notFound();
-  const all = getArchiveIndex();
-  const index = all.findIndex((item) => item.slug === slug);
-  const next = all[(index + 1) % all.length];
-
+  const articles = getArchiveIndex();
+  const next =
+    articles[
+      (articles.findIndex((item) => item.slug === article.slug) + 1) %
+        articles.length
+    ];
   return (
-    <main className="min-h-screen bg-night px-4 pb-24 pt-32">
-      <article className="mx-auto max-w-4xl">
-        <Link href="/archive" className="editorial-link mb-10 inline-block text-sm font-bold">Back to archive</Link>
-        <header className="mb-12">
-          <p className="section-label mb-5">
-            {[formatArchiveDate(article.publishedAt), article.category, article.readTimeMinutes ? `${article.readTimeMinutes} min read` : ""].filter(Boolean).join(" / ")}
-          </p>
-          <h1 className="text-5xl font-black uppercase leading-[0.92] tracking-[-0.06em] md:text-8xl">{article.title}</h1>
-          <p className="mt-8 text-2xl font-bold leading-tight text-muted">{article.summary}</p>
+    <main className="page">
+      <Link href="/archive" className="detail-back">
+        <Icon name="back" width="16" height="16" />
+        All stories
+      </Link>
+      <article className="reading-card card">
+        <header className="detail-header">
+          <span className="eyebrow">{article.category}</span>
+          <h1>{article.title}</h1>
+          <div className="card-meta">
+            <span>Joseph Masonda</span>
+            <span>·</span>
+            <span>{formatArchiveDate(article.publishedAt)}</span>
+            <span>·</span>
+            <span>{article.readTimeMinutes} min read</span>
+          </div>
+          <p style={{ marginTop: 20 }}>{article.summary}</p>
         </header>
-
-        <div className="placeholder-media mb-12 aspect-[16/8] min-h-0">
-          <span className="section-label">{article.coverImage?.alt || article.category || "Medium article"}</span>
+        <div className="detail-cover">
+          <Image
+            src={articleArtwork(article)}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 960px) 700px, 100vw"
+          />
         </div>
-
         <div className="prose-editorial">
-          {article.content?.map((block, idx) => {
+          {article.content?.map((block, index) => {
             if (block.type === "heading") {
               const Tag = block.level === 3 ? "h3" : "h2";
-              return <Tag key={idx}>{block.text}</Tag>;
+              return <Tag key={index}>{block.text}</Tag>;
             }
-            if (block.type === "quote") {
-              return <blockquote key={idx}>{block.text}{block.attribution ? <cite> {block.attribution}</cite> : null}</blockquote>;
-            }
+            if (block.type === "quote")
+              return (
+                <blockquote key={index}>
+                  {block.text}
+                  {block.attribution && <cite> {block.attribution}</cite>}
+                </blockquote>
+              );
             if (block.type === "list") {
               const List = block.style === "ordered" ? "ol" : "ul";
-              return <List key={idx}>{block.items.map((item) => <li key={item}>{item}</li>)}</List>;
+              return (
+                <List key={index}>
+                  {block.items.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </List>
+              );
             }
-            return <p key={idx}>{block.text}</p>;
+            return <p key={index}>{block.text}</p>;
           })}
         </div>
-
-        <footer className="mt-16 border-t border-line pt-8">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            {article.source?.originalUrl ? (
-              <a href={article.source.originalUrl} target="_blank" rel="noreferrer" className="editorial-link font-bold">
-                Originally published on Medium
-              </a>
-            ) : <span />}
-            {next ? <Link href={`/archive/${next.slug}`} className="editorial-link font-bold">Next article</Link> : null}
-          </div>
+        <footer className="article-end">
+          {article.source?.originalUrl && (
+            <a
+              href={article.source.originalUrl}
+              className="text-link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Originally on Medium
+              <Icon name="arrow" width="16" height="16" />
+            </a>
+          )}
+          {next && (
+            <Link href={`/archive/${next.slug}`} className="text-link">
+              Next story
+              <Icon name="right" width="16" height="16" />
+            </Link>
+          )}
         </footer>
       </article>
     </main>

@@ -112,3 +112,11 @@ npm run import:articles
 npm run import:projects
 npm run build
 ```
+
+## Dashboard design
+
+The portfolio now uses a shared dashboard shell, local Inter Variable fonts, and generated editorial artwork. See [design and content notes](docs/dashboard-redesign.md) for the palette, artwork prompts, content provenance, and contact configuration.
+
+When Sanity is empty or unavailable, five personal projects/concepts curated from the existing portfolio spreadsheet are shown. Sanity takes precedence as soon as it contains projects. Results (including fallback content) are cached for five minutes to avoid delaying every page during a CMS outage.
+
+PR checks run a clean installation, ESLint, and the complete Next.js/OpenNext Cloudflare build. The workflow validates the Worker bundle; deployment remains managed by the existing Cloudflare setup.
