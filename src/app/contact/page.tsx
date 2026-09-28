@@ -38,7 +38,7 @@ export default function ContactPage() {
     } catch {
       setStatus("error");
       setError(
-        "Your message could not be sent. Please use the email link below.",
+        "Your message could not be saved right now. Please use the email link below.",
       );
     }
   }
@@ -146,7 +146,7 @@ export default function ContactPage() {
             aria-live="polite"
           >
             {status === "sent"
-              ? "Thank you! Your message has been sent. I’ll be in touch."
+              ? "Thank you! Your message has been received. I’ll be in touch."
               : error}
             {status === "error" && (
               <a
@@ -171,7 +171,7 @@ export default function ContactPage() {
             />
           </button>
           <p className="form-footnote">
-            Your details will only be used to respond to your enquiry.
+            Your enquiry is stored securely so I can respond and track follow-up.
           </p>
         </form>
       </div>
