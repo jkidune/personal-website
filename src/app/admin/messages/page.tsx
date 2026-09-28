@@ -29,8 +29,7 @@ export default async function AdminMessagesPage({
   const db = getContactDb();
   if (!db) {
     return (
-      <main className="admin-page">
-        <AdminHeader />
+      <main className="admin-content">
         <section className="admin-empty card">
           <p className="eyebrow">Setup required</p>
           <h1>Connect the D1 database</h1>
@@ -82,8 +81,7 @@ export default async function AdminMessagesPage({
   };
 
   return (
-    <main className="admin-page">
-      <AdminHeader />
+    <main className="admin-content">
       <section className="admin-toolbar">
         <div>
           <p className="eyebrow">Contact management</p>
@@ -170,22 +168,6 @@ export default async function AdminMessagesPage({
         </section>
       )}
     </main>
-  );
-}
-
-function AdminHeader() {
-  return (
-    <header className="admin-header">
-      <Link href="/" className="admin-brand">
-        Joseph Masonda <span>Admin</span>
-      </Link>
-      <nav>
-        <Link href="/admin/messages">Messages</Link>
-        <form action="/api/admin/logout" method="post">
-          <button type="submit">Sign out</button>
-        </form>
-      </nav>
-    </header>
   );
 }
 
