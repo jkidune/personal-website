@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import {
@@ -175,11 +176,11 @@ export default async function AdminMessagesPage({
 function AdminHeader() {
   return (
     <header className="admin-header">
-      <a href="/" className="admin-brand">
+      <Link href="/" className="admin-brand">
         Joseph Masonda <span>Admin</span>
-      </a>
+      </Link>
       <nav>
-        <a href="/admin/messages">Messages</a>
+        <Link href="/admin/messages">Messages</Link>
         <form action="/api/admin/logout" method="post">
           <button type="submit">Sign out</button>
         </form>
@@ -200,9 +201,9 @@ function Stat({
   active: boolean;
 }) {
   return (
-    <a className={`admin-stat ${active ? "active" : ""}`} href={href}>
+    <Link className={`admin-stat ${active ? "active" : ""}`} href={href}>
       <strong>{value}</strong>
       <span>{label}</span>
-    </a>
+    </Link>
   );
 }
