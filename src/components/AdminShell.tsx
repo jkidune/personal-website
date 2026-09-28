@@ -11,7 +11,7 @@ const nav = [
   { href: "/admin/messages", label: "Messages", icon: "chat" },
   { href: "/admin/projects", label: "Projects", icon: "work" },
   { href: "/admin/articles", label: "Articles", icon: "article" },
-];
+] as const;
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
