@@ -8,9 +8,9 @@ import Icon from "@/components/Icon";
 
 const nav = [
   { href: "/admin", label: "Dashboard", icon: "home" },
-  { href: "/admin/messages", label: "Messages", icon: "message" },
-  { href: "/admin/projects", label: "Projects", icon: "folder" },
-  { href: "/admin/articles", label: "Articles", icon: "file" },
+  { href: "/admin/messages", label: "Messages", icon: "chat" },
+  { href: "/admin/projects", label: "Projects", icon: "work" },
+  { href: "/admin/articles", label: "Articles", icon: "article" },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
@@ -66,7 +66,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <span className="admin-nav-label">Content system</span>
           <nav className="admin-nav">
             <Link href="/studio" target="_blank">
-              <Icon name="edit" width="17" height="17" />
+              <Icon name="pen" width="17" height="17" />
               <span>Sanity Studio</span>
               <span className="admin-nav-arrow">↗</span>
             </Link>
