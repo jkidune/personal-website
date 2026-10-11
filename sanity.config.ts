@@ -8,7 +8,7 @@ export default defineConfig({
   title: "Joseph Personal Website",
   projectId: "36x1zm20",
   dataset: "production",
-  basePath: "/studio",
+  basePath: "/admin/content",
   plugins: [
     structureTool({
       structure: (S) =>

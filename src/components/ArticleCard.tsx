@@ -3,11 +3,11 @@ import Image from "next/image";
 import { type ArchiveArticle, formatArchiveDate } from "@/lib/archive";
 import Icon from "./Icon";
 export function articleArtwork(article: ArchiveArticle) {
-  return /AI/i.test(article.category || "")
+  return article.coverImage?.src || (/AI/i.test(article.category || "")
     ? "/images/pastel-orbit.webp"
     : /Design/i.test(article.category || "")
       ? "/images/paper-flow.webp"
-      : "/images/editorial-desk.webp";
+      : "/images/editorial-desk.webp");
 }
 export default function ArticleCard({ article }: { article: ArchiveArticle }) {
   return (
@@ -15,7 +15,7 @@ export default function ArticleCard({ article }: { article: ArchiveArticle }) {
       <div className="article-image">
         <Image
           src={articleArtwork(article)}
-          alt=""
+          alt={article.coverImage?.src ? article.coverImage.alt || article.title : ""}
           fill
           sizes="(min-width: 1000px) 30vw, (min-width: 700px) 45vw, 100vw"
         />

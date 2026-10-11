@@ -6,28 +6,29 @@ import {
 } from "@/lib/admin-auth";
 
 export async function POST(request: Request) {
+  const requestUrl = new URL(request.url);
   const form = await request.formData();
   const supplied = String(form.get("password") ?? "");
   const { password, sessionSecret } = getAdminConfig();
 
   if (!password || !sessionSecret) {
-    return NextResponse.redirect(new URL("/admin/login?error=config", request.url));
+    return NextResponse.redirect(new URL("/admin/login?error=config", requestUrl));
   }
 
   if (supplied !== password) {
     return NextResponse.redirect(
-      new URL("/admin/login?error=invalid", request.url),
+      new URL("/admin/login?error=invalid", requestUrl),
       303,
     );
   }
 
   const session = await createAdminSession();
-  const response = NextResponse.redirect(new URL("/admin/messages", request.url), 303);
+  const response = NextResponse.redirect(new URL("/admin", requestUrl), 303);
   response.cookies.set({
     name: ADMIN_COOKIE,
     value: session.value,
     httpOnly: true,
-    secure: true,
+    secure: requestUrl.protocol === "https:",
     sameSite: "strict",
     path: "/",
     maxAge: session.maxAge,

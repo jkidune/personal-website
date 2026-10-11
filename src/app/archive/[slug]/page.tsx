@@ -2,25 +2,24 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  formatArchiveDate,
-  getArchiveArticle,
-  getArchiveIndex,
-} from "@/lib/archive";
+import { PortableText } from "@portabletext/react";
+import type { PortableTextBlock } from "next-sanity";
+import { getPublishedArticle, getPublishedArticles } from "@/lib/articles";
+import { formatArchiveDate, type ArchiveBlock } from "@/lib/archive";
 import { articleArtwork } from "@/components/ArticleCard";
 import Icon from "@/components/Icon";
 type Props = { params: Promise<{ slug: string }> };
-export function generateStaticParams() {
-  return getArchiveIndex().map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  return (await getPublishedArticles()).map((article) => ({ slug: article.slug }));
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const article = getArchiveArticle((await params).slug);
+  const article = await getPublishedArticle((await params).slug);
   return { title: article?.title || "Story", description: article?.summary };
 }
 export default async function ArchiveArticlePage({ params }: Props) {
-  const article = getArchiveArticle((await params).slug);
+  const article = await getPublishedArticle((await params).slug);
   if (!article) notFound();
-  const articles = getArchiveIndex();
+  const articles = await getPublishedArticles();
   const next =
     articles[
       (articles.findIndex((item) => item.slug === article.slug) + 1) %
@@ -48,37 +47,20 @@ export default async function ArchiveArticlePage({ params }: Props) {
         <div className="detail-cover">
           <Image
             src={articleArtwork(article)}
-            alt=""
+            alt={article.coverImage?.src ? article.coverImage.alt || article.title : ""}
             fill
             priority
             sizes="(min-width: 960px) 700px, 100vw"
           />
         </div>
         <div className="prose-editorial">
-          {article.content?.map((block, index) => {
-            if (block.type === "heading") {
-              const Tag = block.level === 3 ? "h3" : "h2";
-              return <Tag key={index}>{block.text}</Tag>;
-            }
-            if (block.type === "quote")
-              return (
-                <blockquote key={index}>
-                  {block.text}
-                  {block.attribution && <cite> {block.attribution}</cite>}
-                </blockquote>
-              );
-            if (block.type === "list") {
-              const List = block.style === "ordered" ? "ol" : "ul";
-              return (
-                <List key={index}>
-                  {block.items.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </List>
-              );
-            }
-            return <p key={index}>{block.text}</p>;
-          })}
+          {isPortableText(article.content) ? (
+            <PortableText value={article.content} />
+          ) : (
+            article.content?.map((block, index) => (
+              <ArchiveContentBlock key={index} block={block} />
+            ))
+          )}
         </div>
         <footer className="article-end">
           {article.source?.originalUrl && (
@@ -102,4 +84,39 @@ export default async function ArchiveArticlePage({ params }: Props) {
       </article>
     </main>
   );
+}
+
+function isPortableText(
+  content: ArchiveBlock[] | PortableTextBlock[] | undefined,
+): content is PortableTextBlock[] {
+  return Boolean(content?.length && "_type" in content[0]);
+}
+
+function ArchiveContentBlock({ block }: { block: ArchiveBlock }) {
+  if (block.type === "heading") {
+    const Tag = block.level === 3 ? "h3" : "h2";
+    return <Tag>{block.text}</Tag>;
+  }
+
+  if (block.type === "quote") {
+    return (
+      <blockquote>
+        {block.text}
+        {block.attribution ? <cite> {block.attribution}</cite> : null}
+      </blockquote>
+    );
+  }
+
+  if (block.type === "list") {
+    const List = block.style === "ordered" ? "ol" : "ul";
+    return (
+      <List>
+        {block.items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </List>
+    );
+  }
+
+  return <p>{block.text}</p>;
 }

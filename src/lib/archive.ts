@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from "next-sanity";
+
 // Static JSON imports — bundled at build time, compatible with Cloudflare Workers edge runtime.
 // Do NOT use fs.readFileSync here; Cloudflare Workers cannot read the filesystem at request time.
 
@@ -31,7 +33,7 @@ export type ArchiveArticle = {
   tags?: string[];
   featured?: boolean;
   coverImage?: { src?: string | null; alt?: string };
-  content?: ArchiveBlock[];
+  content?: ArchiveBlock[] | PortableTextBlock[];
   source?: { originalUrl?: string };
 };
 
