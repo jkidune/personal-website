@@ -2,18 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-export default function SiteShell({
-  children,
-  isAdmin,
-}: {
-  children: ReactNode;
-  isAdmin: boolean;
-}) {
+export default function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Checked client-side so public pages stay static and cacheable.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/admin/session", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : { admin: false }))
+      .then((data: { admin?: boolean }) => {
+        if (!cancelled) setIsAdmin(Boolean(data.admin));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   if (pathname.startsWith("/admin")) return children;
 

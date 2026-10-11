@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     value: "",
     httpOnly: true,
     secure: requestUrl.protocol === "https:",
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/",
     maxAge: 0,
   });

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     value: session.value,
     httpOnly: true,
     secure: requestUrl.protocol === "https:",
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/",
     maxAge: session.maxAge,
   });
