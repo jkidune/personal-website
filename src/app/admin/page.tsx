@@ -34,19 +34,23 @@ async function getMessageCount() {
   const db = getContactDb();
   if (!db) return null;
 
-  const result = await db
-    .prepare(
-      `SELECT
-        COUNT(*) AS total,
-        SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) AS new_count
-      FROM contact_messages`,
-    )
-    .first<{ total: number; new_count: number }>();
+  try {
+    const result = await db
+      .prepare(
+        `SELECT
+          COUNT(*) AS total,
+          SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) AS new_count
+        FROM contact_messages`,
+      )
+      .first<{ total: number; new_count: number }>();
 
-  return {
-    total: Number(result?.total ?? 0),
-    new: Number(result?.new_count ?? 0),
-  };
+    return {
+      total: Number(result?.total ?? 0),
+      new: Number(result?.new_count ?? 0),
+    };
+  } catch {
+    return null;
+  }
 }
 
 export default async function AdminPage() {
