@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { getArchiveIndex } from "@/lib/archive";
+import { getPublishedArticles } from "@/lib/articles";
 import PageHeader from "@/components/PageHeader";
 import ArticleCollection from "@/components/ArticleCollection";
 export const metadata: Metadata = { title: "Writing & ideas" };
-export default function ArchivePage() {
+export default async function ArchivePage() {
+  const articles = await getPublishedArticles();
+
   return (
     <main className="page">
       <PageHeader
@@ -11,7 +13,7 @@ export default function ArchivePage() {
         title="Writing & ideas"
         description="Notes on communication, creativity, and a changing world. A few things I’ve learned, noticed, and wanted to share."
       />
-      <ArticleCollection articles={getArchiveIndex()} />
+      <ArticleCollection articles={articles} />
     </main>
   );
 }

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -7,6 +9,8 @@ export default async function AdminLoginPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
+  if (await isAdminAuthenticated()) redirect("/admin");
+
   const { error } = await searchParams;
   const message =
     error === "config"
@@ -22,10 +26,10 @@ export default async function AdminLoginPage({
           ← Back to portfolio
         </Link>
         <p className="eyebrow">Private dashboard</p>
-        <h1>Portfolio inbox</h1>
+        <h1>Portfolio admin</h1>
         <p>
-          Sign in to review enquiries submitted through the website contact
-          form.
+          Sign in to manage your projects, posts, uploaded images, and contact
+          messages.
         </p>
         <form action="/api/admin/login" method="post" className="admin-login-form">
           <label className="form-field">
@@ -44,7 +48,7 @@ export default async function AdminLoginPage({
             </p>
           )}
           <button className="button button-dark" type="submit">
-            Open inbox
+            Open dashboard
           </button>
         </form>
       </section>

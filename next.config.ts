@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   async redirects() {
     return [
+      { source: "/studio", destination: "/admin/content", permanent: false },
+      {
+        source: "/studio/:path*",
+        destination: "/admin/content/:path*",
+        permanent: false,
+      },
       { source: "/works", destination: "/work", permanent: true },
       { source: "/works/:slug", destination: "/work/:slug", permanent: true },
       { source: "/insights", destination: "/archive", permanent: true },
